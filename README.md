@@ -79,9 +79,10 @@ weather-wand --help
 
 - [Clippy](https://github.com/rust-lang/rust-clippy) is used for linting. Please
   run it before every push.
-  ```shell
-  cargo clippy
-  ```
+
+```shell
+cargo clippy
+```
 
 ### Contribute
 
