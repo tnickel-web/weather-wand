@@ -78,14 +78,14 @@ weather-wand --help
 ### Requirements
 
 - [rust-clippy](https://github.com/rust-lang/rust-clippy) is used for linting.
-  Please run it before every push.
+  Please run it before every push:
 
 ```shell
 cargo clippy
 ```
 
 - _(optional)_ [cargo-modules](https://github.com/regexident/cargo-modules) can
-  be used to display the modules structure.
+  be used to display the module structure:
 
 ```shell
 cargo modules generate tree
@@ -99,7 +99,7 @@ cargo modules generate tree --types
 
 ### Contribute
 
-1. Clone the project repository
+1. Clone the project repository:
 
 ```shell
 git clone https://github.com/tnickel-web/weather-wand.git
@@ -111,13 +111,13 @@ git clone https://github.com/tnickel-web/weather-wand.git
 cd weather-wand
 ```
 
-3. Run the project
+3. Run the project:
 
 ```shell
 cargo run
 ```
 
-4. Build for release
+4. Build for release:
 
 ```shell
 cargo build --release
