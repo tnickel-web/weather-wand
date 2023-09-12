@@ -69,5 +69,6 @@ weather-wand --help
 ---
 
 ## ToDo
+- [ ] Add build instructions to README.
 - [ ] Improve error handling so there is a error output instead of null values.
 - [ ] Set a timeout for the requests so the terminal is not stuck until fetch has finished when there is no / a slow internet connection.
