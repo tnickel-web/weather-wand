@@ -1,8 +1,11 @@
 # Weather Fetcher and Beautifier
 
-![Project Image](project_image.png) <!-- Include a project image or logo if available -->
+![Project Image](project_image.png)
 
-> A Rust-based command-line tool for fetching weather data from an API and presenting it in a beautiful and readable format.
+<!-- Include a project image or logo if available -->
+
+> A Rust-based command-line tool for fetching weather data from an API and
+> presenting it in a beautiful and readable format.
 
 ---
 
@@ -17,9 +20,13 @@
 
 ## Introduction
 
-Weather Fetcher and Beautifier is a command-line tool built in Rust that allows you to retrieve weather data from an external API, deserialize the JSON response, and present it in a user-friendly and aesthetically pleasing format in the terminal.
+Weather Fetcher and Beautifier is a command-line tool built in Rust that allows
+you to retrieve weather data from an external API, deserialize the JSON
+response, and present it in a user-friendly and aesthetically pleasing format in
+the terminal.
 
-This project was developed with the goal of providing a simple and elegant way to access weather information for any location and display it with clarity.
+This project was developed with the goal of providing a simple and elegant way
+to access weather information for any location and display it with clarity.
 
 ---
 
@@ -34,12 +41,27 @@ This project was developed with the goal of providing a simple and elegant way t
 ---
 
 ## Requirements
-- Set a [Nerd Font](https://github.com/ryanoasis/nerd-fonts) as your terminal font to correctly display the icons.
-- Ensure a stable internet connection
+
+- Set a [Nerd Font](https://github.com/ryanoasis/nerd-fonts) as your terminal
+  font to correctly display the icons.
+- Ensure a stable internet connection.
 
 ---
+
 ## Usage
 
 ```bash
+weather-wand --city <CITY> --temperature-unit <TEMPERATURE_UNIT> --windspeed-unit <WINDSPEED_UNIT>
+```
+
+Example:
+
+```bash
 weather-wand -c "New York" -t fahrenheit -w mph
+```
+
+Help:
+
+```bash
+weather-wand --help
 ```
