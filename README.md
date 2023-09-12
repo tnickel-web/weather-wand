@@ -95,7 +95,7 @@ git clone https://github.com/tnickel-web/weather-wand.git
 2. Navigate to the project directory:
 
 ```shell
-cd weatherwand
+cd weather-wand
 ```
 
 3. Run the project
@@ -116,6 +116,6 @@ cargo build --release
 
 - [x] Add build instructions to README.
 - [ ] Implement testing.
-- [ ] Improve error handling so there is a error output instead of null values.
+- [ ] Improve error handling so there is an error output instead of null values.
 - [ ] Set a timeout for the requests so the terminal is not stuck until fetch
       has finished when there is no / a slow internet connection.
