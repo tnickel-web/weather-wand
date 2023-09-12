@@ -128,6 +128,7 @@ cargo build --release
 ## ToDo
 
 - [x] Add build instructions to README.
+- [ ] Add fmt instructions.
 - [ ] Implement testing.
 - [ ] Solve node12 vs node16 issue for Actions.
 - [ ] Improve error handling so there is an error output instead of null values.
