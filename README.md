@@ -1,4 +1,4 @@
-# Weather Wand
+# WeatherWand
 
 ![Project Image](docs/images/demo.png)
 
@@ -6,7 +6,11 @@
 > presenting it in a beautiful and readable format.
 
 ### Note
-_This is very much work in progress and the first project in my journey of learning Rust. It probably does not follow best-practice and still has a lot of things that can be improved in the future. Please consider this when looking at this repository._
+
+_This is very much work in progress and the first project in my journey of
+learning Rust. It probably does not follow best-practice and still has a lot of
+things that can be improved in the future. When looking at this repository,
+please consider that._
 
 ---
 
@@ -16,15 +20,16 @@ _This is very much work in progress and the first project in my journey of learn
 - [Features](#features)
 - [Requirements](#requirements)
 - [Usage](#usage)
+- [Development](#development)
+- [ToDo](#todo)
 
 ---
 
 ## Introduction
 
-WeatherWand is a command-line tool built in Rust that allows
-you to retrieve weather data from an external API, deserialize the JSON
-response, and present it in a user-friendly and aesthetically pleasing format in
-the terminal.
+WeatherWand is a command-line tool built in Rust that allows you to retrieve
+weather data from an external API, deserialize the JSON response, and present it
+in a user-friendly and aesthetically pleasing format in the terminal.
 
 This project was developed with the goal of providing a simple and elegant way
 to access weather information for any location and display it with clarity.
@@ -50,25 +55,70 @@ to access weather information for any location and display it with clarity.
 
 ## Usage
 
-```bash
+```shell
 weather-wand --city <CITY> --temperature-unit <TEMPERATURE_UNIT> --windspeed-unit <WINDSPEED_UNIT>
 ```
 
 Example:
 
-```bash
+```shell
 weather-wand -c "New York" -t fahrenheit -w mph
 ```
 
 Help:
 
-```bash
+```shell
 weather-wand --help
 ```
 
 ---
 
+## Development
+
+### Requirements
+
+- [Clippy](https://github.com/rust-lang/rust-clippy) is used for linting. Please
+  run it before every push.
+  - ```shell
+
+    ```
+    cargo clippy
+  ```
+
+  ```
+
+### Contribute
+
+1. Clone the project repository
+
+```shell
+git clone https://github.com/tnickel-web/weather-wand.git
+```
+
+2. Navigate to the project directory:
+
+```shell
+cd weatherwand
+```
+
+3. Run the project
+
+```shell
+cargo run
+```
+
+4. Build for release
+
+```shell
+cargo build --release
+```
+
+---
+
 ## ToDo
-- [ ] Add build instructions to README.
+
+- [x] Add build instructions to README.
+- [ ] Implement testing.
 - [ ] Improve error handling so there is a error output instead of null values.
-- [ ] Set a timeout for the requests so the terminal is not stuck until fetch has finished when there is no / a slow internet connection.
+- [ ] Set a timeout for the requests so the terminal is not stuck until fetch
+      has finished when there is no / a slow internet connection.
