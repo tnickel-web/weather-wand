@@ -77,11 +77,24 @@ weather-wand --help
 
 ### Requirements
 
-- [Clippy](https://github.com/rust-lang/rust-clippy) is used for linting. Please
-  run it before every push.
+- [rust-clippy](https://github.com/rust-lang/rust-clippy) is used for linting.
+  Please run it before every push.
 
 ```shell
 cargo clippy
+```
+
+- _(optional)_ [cargo-modules](https://github.com/regexident/cargo-modules) can
+  be used to display the modules structure.
+
+```shell
+cargo modules generate tree
+```
+
+or
+
+```shell
+cargo modules generate tree --types
 ```
 
 ### Contribute
