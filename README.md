@@ -6,9 +6,7 @@
 > presenting it in a beautiful and readable format.
 
 ### Note
-This is very much work in progress and the first project in my journey of learning Rust.
-It probably does not follow best-practice and still has a lot of things that can be improved in the future.
-Please consider this when looking at this repository.
+_This is very much work in progress and the first project in my journey of learning Rust. It probably does not follow best-practice and still has a lot of things that can be improved in the future. Please consider this when looking at this repository._
 
 ---
 
