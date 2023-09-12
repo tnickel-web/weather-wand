@@ -1,0 +1,29 @@
+name: Clippy Check
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  clippy_check:
+    runs-on: ubuntu-latest
+
+    env:
+      RUSTFLAGS: "-Dwarnings"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: Install Clippy
+        run: cargo install clippy --force
+
+      - name: Run Clippy
+        run: cargo clippy --all-targets --all-features
+
