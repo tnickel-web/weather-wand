@@ -10,12 +10,8 @@
 
 - [Introduction](#introduction)
 - [Features](#features)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
+- [Requirements](#requirements)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ---
 
@@ -37,18 +33,13 @@ This project was developed with the goal of providing a simple and elegant way t
 
 ---
 
-## Getting Started
+## Requirements
+- Set a [Nerd Font](https://github.com/ryanoasis/nerd-fonts) as your terminal font to correctly display the icons.
+- Ensure a stable internet connection
 
-### Prerequisites
+---
+## Usage
 
-Before you begin, ensure you have met the following requirements:
-
-- Rust: You need to have Rust installed. If not, you can [install Rust](https://www.rust-lang.org/learn/get-started) following the official instructions.
-
-### Installation
-
-1. Clone the repository:
-
-   ```shell
-   git clone https://github.com/your-username/weather-fetcher.git
-
+```bash
+weather-wand -c "New York" -t fahrenheit -w mph
+```
