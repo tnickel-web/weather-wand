@@ -1,6 +1,6 @@
 # Weather Fetcher and Beautifier
 
-![Project Image](project_image.png)
+![Project Image](docs/images/demo.png)
 
 <!-- Include a project image or logo if available -->
 
