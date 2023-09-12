@@ -2,7 +2,6 @@ use clap::Parser;
 
 #[derive(Parser)]
 #[clap(
-    author = "T. Nickel",
     version = "1.0.0",
     about = "A CLI tool to fetch weather from an API and display a beautified output. Supports arguments for city, temperature- and windspeed unit."
 )]
