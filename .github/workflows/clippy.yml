@@ -1,29 +1,14 @@
-name: Clippy Check
+on: push
+name: Clippy check
 
-on:
-  push:
-    branches:
-      - main
+# Make sure CI fails on all warnings, including Clippy lints
+env:
+  RUSTFLAGS: "-Dwarnings"
 
 jobs:
   clippy_check:
     runs-on: ubuntu-latest
-
-    env:
-      RUSTFLAGS: "-Dwarnings"
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout
-
-      - name: Set up Rust
-        uses: actions-rs/toolchain
-        with:
-          toolchain: stable
-
-      - name: Install Clippy
-        run: cargo install clippy --force
-
+      - uses: actions/checkout@v3
       - name: Run Clippy
         run: cargo clippy --all-targets --all-features
-
