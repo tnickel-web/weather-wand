@@ -78,10 +78,17 @@ weather-wand --help
 ### Requirements
 
 - [rust-clippy](https://github.com/rust-lang/rust-clippy) is used for linting.
-  Please run it before every push:
+  Please run it before every commit:
 
 ```shell
 cargo clippy
+```
+
+- [rustfmt](https://github.com/rust-lang/rustfmt) is used for code formatting.
+  Please run it before every commit:
+
+```shell
+cargo fmt
 ```
 
 - _(optional)_ [cargo-modules](https://github.com/regexident/cargo-modules) can
@@ -119,8 +126,18 @@ cargo run
 
 4. Build for release:
 
+- Linux:
+
 ```shell
 cargo build --release
+```
+
+- Windows:
+
+```shell
+rustup target add x86_64-pc-windows-gnu
+
+cargo build --release --target x86_64-pc-windows-gnu
 ```
 
 ---
@@ -128,8 +145,8 @@ cargo build --release
 ## ToDo
 
 - [x] Add build instructions to README.
-- [ ] Publish a release.
-- [ ] Add fmt instructions.
+- [x] Publish a release.
+- [x] Add fmt instructions.
 - [ ] Implement testing.
 - [ ] Solve node12 vs node16 issue for Actions.
 - [ ] Improve error handling so there is an error output instead of null values.
