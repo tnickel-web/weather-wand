@@ -179,7 +179,9 @@ cargo build --release --target x86_64-pc-windows-gnu
 - [x] Add build instructions to README.
 - [x] Publish a release.
 - [x] Add fmt instructions.
-- [ ] Implement update checker when running + automate updating.
+- [ ] Implement update checker when running + automate updating **or:** Check
+      for updates on execution and display update instructions (e.g. "to update,
+      run weather-wand --update")
 - [ ] Implement testing.
 - [ ] Solve node12 vs node16 issue for Actions.
 - [ ] Improve error handling so there is an error output instead of null values.
