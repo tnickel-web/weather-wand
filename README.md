@@ -60,7 +60,9 @@ to access weather information for any location and display it with clarity.
 
 ## Installation
 
-Linux: There are 2 ways to install this program.
+Linux: 
+
+There are 2 ways to install this program.
 
 1. Download the latest release manually and place it in a directory of your
    choosing.
