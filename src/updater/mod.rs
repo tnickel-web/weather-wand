@@ -8,7 +8,7 @@ fn get_current_version() -> String {
     env!("CARGO_PKG_VERSION").to_string()
 }
 
-pub fn notify() -> () {
+pub fn notify() {
     println!("There is a new version available.");
     println!("Consider updating using weather-wand --update");
 }
