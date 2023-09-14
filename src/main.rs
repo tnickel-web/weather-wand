@@ -1,6 +1,7 @@
 mod config;
 mod geolocation;
 mod output;
+mod updater;
 mod weather;
 
 use clap::Parser;
@@ -26,6 +27,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // TODO: Use struct/enum for handling all units (temperature_unit & metric/imperial)
     WeatherOutput::print_output(weather_info, &geo_info, temperature_unit, windspeed_unit);
+
+    if updater::is_new_version_available().await {
+        updater::notify()
+    }
 
     Ok(())
 }
