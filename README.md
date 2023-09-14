@@ -84,6 +84,13 @@ weather-wand --help
 cargo clippy
 ```
 
+- [rustfmt](https://github.com/rust-lang/rustfmt) is used for code formatting.
+  Please run it before every push:
+
+```shell
+cargo fmt
+```
+
 - _(optional)_ [cargo-modules](https://github.com/regexident/cargo-modules) can
   be used to display the module structure:
 
@@ -128,8 +135,8 @@ cargo build --release
 ## ToDo
 
 - [x] Add build instructions to README.
-- [ ] Publish a release.
-- [ ] Add fmt instructions.
+- [x] Publish a release.
+- [x] Add fmt instructions.
 - [ ] Implement testing.
 - [ ] Solve node12 vs node16 issue for Actions.
 - [ ] Improve error handling so there is an error output instead of null values.
