@@ -65,10 +65,10 @@ impl WeatherOutput {
 
         println!("┌{}┐", decoration);
         println!("  {}", header.cyan().bold(),);
-        println!("    Temperature: {}", temperature_formatted.bright_blue());
+        println!("  󱣖  Temperature: {}", temperature_formatted.bright_blue());
         println!("    Wind Speed:  {}", windspeed_formatted.bright_blue());
         println!(
-            "  🌍 Location:    {}",
+            "    Location:    {}",
             geo_info.name.trim_matches('"').bright_blue()
         );
         println!(
@@ -86,7 +86,7 @@ impl WeatherOutput {
                 .bright_blue()
         );
         println!(
-            "    Timezone:    {}",
+            "    Timezone:    {}",
             weather
                 .timezone
                 .trim_matches('"')
