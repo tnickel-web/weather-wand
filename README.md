@@ -126,13 +126,13 @@ cargo run
 
 4. Build for release:
 
-Linux:
+- Linux:
 
 ```shell
 cargo build --release
 ```
 
-Windows:
+- Windows:
 
 ```shell
 rustup target add x86_64-pc-windows-gnu
