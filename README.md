@@ -12,14 +12,16 @@ learning Rust. It probably does not follow best-practice and still has a lot of
 things that can be improved in the future. When looking at this repository,
 please take that into consideration._
 
-_I only provide limited support for Windows. Linux is supported. MacOS is not supported because I do
-not own a copy of MacOS I can test on. (I hope "it just works™")._
+_I only provide limited support for Windows. Linux is supported. MacOS is not
+supported because I do not own a copy of MacOS I can test on. (I hope "it just
+works™")._
 
 ## Table of Contents
 
 - [Introduction](#introduction)
 - [Features](#features)
 - [Requirements](#requirements)
+- [Installation](#installation)
 - [Usage](#usage)
 - [Development](#development)
 - [ToDo](#todo)
@@ -49,12 +51,40 @@ to access weather information for any location and display it with clarity.
 ## Requirements
 
 - Set a [Nerd Font](https://github.com/ryanoasis/nerd-fonts) as your terminal
-  font to correctly display the icons. The font used in the demo image is [JetBrainsMono Nerd Font](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/JetBrainsMono). Other fonts may display the icons differently.
+  font to correctly display the icons. The font used in the demo image is
+  [JetBrainsMono Nerd Font](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/JetBrainsMono).
+  Other fonts may display the icons differently.
 - Ensure a stable internet connection.
 
 ---
 
+## Installation
+
+Linux: 
+
+There are 2 ways to install this program.
+
+1. Download the latest release manually and place it in a directory of your
+   choosing.
+2. Run the automated installation script in the bin/ directory to install the
+   program on your system. The script requires elevated privileges. **As always,
+   please check the content of the script for safety before running it.**
+
+```shell
+sudo bin/install-linux.sh
+```
+
+Windows:
+
+- Download the latest release manually and place it in a directory of your
+  choosing.
+
+---
+
 ## Usage
+
+The executable is supposed to be run from the terminal. Double-clicking the
+executable might not work, since it is a command-line application.
 
 ```shell
 weather-wand --city <CITY> --temperature-unit <TEMPERATURE_UNIT> --windspeed-unit <WINDSPEED_UNIT>
