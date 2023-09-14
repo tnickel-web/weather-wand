@@ -78,14 +78,14 @@ weather-wand --help
 ### Requirements
 
 - [rust-clippy](https://github.com/rust-lang/rust-clippy) is used for linting.
-  Please run it before every push:
+  Please run it before every commit:
 
 ```shell
 cargo clippy
 ```
 
 - [rustfmt](https://github.com/rust-lang/rustfmt) is used for code formatting.
-  Please run it before every push:
+  Please run it before every commit:
 
 ```shell
 cargo fmt
