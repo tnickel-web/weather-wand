@@ -45,6 +45,7 @@ to access weather information for any location and display it with clarity.
 - Deserialize JSON responses.
 - Display weather information in the terminal.
 - Support for various units (temperature, wind speed).
+- Provide automated install script for Linux.
 
 ---
 
@@ -60,7 +61,7 @@ to access weather information for any location and display it with clarity.
 
 ## Installation
 
-Linux: 
+Linux:
 
 There are 2 ways to install this program.
 
@@ -178,6 +179,7 @@ cargo build --release --target x86_64-pc-windows-gnu
 - [x] Add build instructions to README.
 - [x] Publish a release.
 - [x] Add fmt instructions.
+- [ ] Implement update checker when running + automate updating.
 - [ ] Implement testing.
 - [ ] Solve node12 vs node16 issue for Actions.
 - [ ] Improve error handling so there is an error output instead of null values.
