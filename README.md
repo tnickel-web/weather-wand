@@ -12,7 +12,7 @@ learning Rust. It probably does not follow best-practice and still has a lot of
 things that can be improved in the future. When looking at this repository,
 please take that into consideration._
 
-_I only provide limited support for Windows. MacOS is not supported because I do
+_I only provide limited support for Windows. Linux is supported. MacOS is not supported because I do
 not own a copy of MacOS I can test on. (I hope "it just works™")._
 
 ## Table of Contents
@@ -49,7 +49,7 @@ to access weather information for any location and display it with clarity.
 ## Requirements
 
 - Set a [Nerd Font](https://github.com/ryanoasis/nerd-fonts) as your terminal
-  font to correctly display the icons.
+  font to correctly display the icons. The font used in the demo image is [JetBrainsMono Nerd Font](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/JetBrainsMono). Other fonts may display the icons differently.
 - Ensure a stable internet connection.
 
 ---
