@@ -3,6 +3,7 @@ extern crate semver;
 use reqwest::header::USER_AGENT;
 use semver::Version;
 use serde_json::Value;
+use super::config::Config;
 
 fn get_current_version() -> String {
     env!("CARGO_PKG_VERSION").to_string()
@@ -23,10 +24,9 @@ pub async fn is_new_version_available() -> bool {
 }
 
 async fn get_latest_version() -> Result<String, Box<dyn std::error::Error>> {
-    let api_url = format!(
-        "https://api.github.com/repos/{}/{}/releases/latest",
-        "tnickel-web", "weather-wand"
-    );
+    let api_url = Config::get_value("latest_release_url").unwrap();
+
+    println!("{}", api_url);
 
     let client = reqwest::Client::new();
 
