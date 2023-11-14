@@ -26,8 +26,6 @@ pub async fn is_new_version_available() -> bool {
 async fn get_latest_version() -> Result<String, Box<dyn std::error::Error>> {
     let api_url = Config::get_value("latest_release_url").unwrap();
 
-    println!("{}", api_url);
-
     let client = reqwest::Client::new();
 
     let response = client
