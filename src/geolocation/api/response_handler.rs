@@ -9,8 +9,6 @@ pub fn deserialize(
     let parsed_body: Value =
         serde_json::from_str(&body?).map_err(|err| format!("Error parsing JSON: {}", err))?;
 
-    println!("{}", parsed_body);
-
     let city_name = &parsed_body["results"][0]["name"]
         .as_str()
         .ok_or_else(|| Box::new(CustomError::GeolocationNotFound))?
