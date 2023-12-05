@@ -14,12 +14,12 @@ pub fn deserialize(
     let timezone = &parsed_body["results"][0]["timezone"];
 
     let location: Location = Location {
-        name: name.to_string(),
-        country_code: country_code.to_string(),
-        timezone: timezone.to_string(),
+        name: parsed_body["results"][0]["name"].to_string(),
+        country_code: parsed_body["results"][0]["country_code"].to_string(),
+        timezone: parsed_body["results"][0]["timezone"].to_string(),
         coordinates: Coordinates {
-            latitude: latitude.to_string(),
-            longitude: longitude.to_string(),
+            latitude: parsed_body["results"][0]["latitude"].to_string(),
+            longitude: parsed_body["results"][0]["longitude"].to_string(),
         },
     };
 
