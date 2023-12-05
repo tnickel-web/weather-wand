@@ -25,12 +25,12 @@ pub fn deserialize(
         .to_string();
 
     let latitude = &parsed_body["results"][0]["latitude"]
-        .as_str()
+        .as_f64()
         .ok_or_else(|| Box::new(CustomError::GeolocationNotFound))?
         .to_string();
 
     let longitude = &parsed_body["results"][0]["longitude"]
-        .as_str()
+        .as_f64()
         .ok_or_else(|| Box::new(CustomError::GeolocationNotFound))?
         .to_string();
 
