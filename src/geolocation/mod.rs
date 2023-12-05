@@ -1,12 +1,12 @@
-pub mod api;
+pub mod geo_api;
 
 use super::config::Config;
-use api::response_handler;
+use geo_api::response_handler;
 
 pub async fn get_info_for(location: &str) -> Result<Location, Box<dyn std::error::Error>> {
     let url = GeoApiUrl::set_location(location)?.url;
-
-    let geo_info = response_handler::deserialize(api::Client::fetch(url).await)?;
+    let data = geo_api::Client::fetch(url).await;
+    let geo_info = response_handler::deserialize(data)?;
 
     Ok(geo_info)
 }

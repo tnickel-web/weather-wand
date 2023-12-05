@@ -1,8 +1,8 @@
-pub mod api;
+pub mod weather_api;
 
 use super::config::Config;
 use super::geolocation::Coordinates;
-use api::response_handler;
+use weather_api::response_handler;
 
 pub async fn get_info_for(
     coordinates: &Coordinates,
@@ -18,7 +18,7 @@ pub async fn get_info_for(
         .set_windspeed_unit(windspeed_unit)?
         .url;
 
-    let weather_info = response_handler::deserialize(api::Client::fetch(url).await)?;
+    let weather_info = response_handler::deserialize(weather_api::Client::fetch(url).await)?;
 
     Ok(weather_info)
 }
