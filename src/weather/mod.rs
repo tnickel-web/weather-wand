@@ -9,12 +9,13 @@ pub async fn get_info_for(
     temperature_unit: &str,
     windspeed_unit: &str,
 ) -> Result<CurrentWeather, Box<dyn std::error::Error>> {
-    let mut url_unmodified = WeatherApiUrl::new(Config::get_value("weather_api_url").unwrap());
+    let base_url = Config::get_value("weather_api_url")?;
+    let mut url_unmodified = WeatherApiUrl::new(base_url);
 
     let url = &url_unmodified
-        .set_coordinates(&coordinates.latitude, &coordinates.longitude)
-        .set_temperature_unit(temperature_unit)
-        .set_windspeed_unit(windspeed_unit)
+        .set_coordinates(&coordinates.latitude, &coordinates.longitude)?
+        .set_temperature_unit(temperature_unit)?
+        .set_windspeed_unit(windspeed_unit)?
         .url;
 
     let weather_info = response_handler::deserialize(api::Client::fetch(url).await)?;
@@ -31,25 +32,35 @@ impl WeatherApiUrl {
         WeatherApiUrl { url: base_url }
     }
 
-    pub fn set_coordinates(&mut self, latitude: &str, longitude: &str) -> &mut WeatherApiUrl {
+    pub fn set_coordinates(
+        &mut self,
+        latitude: &str,
+        longitude: &str,
+    ) -> Result<&mut WeatherApiUrl, Box<dyn std::error::Error>> {
         self.url = self
             .url
             .replace("__LAT__", latitude)
             .replace("__LON__", longitude);
 
-        self
+        Ok(self)
     }
 
-    pub fn set_temperature_unit(&mut self, temperature_unit: &str) -> &mut WeatherApiUrl {
+    pub fn set_temperature_unit(
+        &mut self,
+        temperature_unit: &str,
+    ) -> Result<&mut WeatherApiUrl, Box<dyn std::error::Error>> {
         self.url = self.url.replace("__TEMPERATURE_UNIT__", temperature_unit);
 
-        self
+        Ok(self)
     }
 
-    pub fn set_windspeed_unit(&mut self, windspeed_unit: &str) -> &mut WeatherApiUrl {
+    pub fn set_windspeed_unit(
+        &mut self,
+        windspeed_unit: &str,
+    ) -> Result<&mut WeatherApiUrl, Box<dyn std::error::Error>> {
         self.url = self.url.replace("__WINDSPEED_UNIT__", windspeed_unit);
 
-        self
+        Ok(self)
     }
 }
 

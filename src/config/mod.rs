@@ -9,10 +9,23 @@ impl Config {
         let file_path = include_str!("files/config.json");
 
         let parsed: Value = serde_json::from_str(file_path)?;
-        let json_value = parsed[value]
+
+        let json_value = parsed
+            .get(value)
+            .ok_or_else(|| {
+                Box::<dyn std::error::Error>::from(format!(
+                    "Invalid JSON format: value '{}' not found",
+                    value
+                ))
+            })?
             .as_str()
-            .ok_or(format!("Invalid JSON format: {} not found", value))?
-            .to_string();
+            .map(|s| s.to_string())
+            .ok_or_else(|| {
+                Box::<dyn std::error::Error>::from(format!(
+                    "Value for key {} is not a string",
+                    value
+                ))
+            })?;
 
         Ok(json_value)
     }
