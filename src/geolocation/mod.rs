@@ -1,12 +1,12 @@
-pub mod api;
+pub mod geo_api;
 
 use super::config::Config;
-use api::response_handler;
+use geo_api::response_handler;
 
 pub async fn get_info_for(location: &str) -> Result<Location, Box<dyn std::error::Error>> {
-    let url = GeoApiUrl::set_location(location).unwrap().url;
-
-    let geo_info = response_handler::deserialize(api::Client::fetch(url).await)?;
+    let url = GeoApiUrl::set_location(location)?.url;
+    let data = geo_api::Client::fetch(url).await;
+    let geo_info = response_handler::deserialize(data)?;
 
     Ok(geo_info)
 }
@@ -28,8 +28,8 @@ pub struct GeoApiUrl {
 }
 
 impl GeoApiUrl {
-    pub fn set_location(location: &str) -> Result<GeoApiUrl, String> {
-        let url = Config::get_value("geo_api_url").unwrap();
+    pub fn set_location(location: &str) -> Result<GeoApiUrl, Box<dyn std::error::Error>> {
+        let url = Config::get_value("geo_api_url")?;
         let new_url = url.replace("__NAME__", location);
 
         Ok(GeoApiUrl { url: new_url })
