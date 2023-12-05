@@ -4,7 +4,6 @@ mod geolocation;
 mod output;
 mod weather;
 
-use crate::errors::CustomError;
 use clap::Parser;
 use config::args::Args;
 use output::WeatherOutput;
@@ -22,14 +21,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let geo_info = match geo_info_result {
         Ok(geo_info) => geo_info,
         Err(e) => {
-            match e.downcast_ref::<CustomError>() {
-                Some(CustomError::GeolocationNotFound) => {
-                    eprintln!("Error: Required information not found in the geolocation data. \
-                    Please check the city name you provided. There may also be an issue with the external ressource.");
+            let error_display = format!("{}", e);
+            // TODO: Match on error type instead of error message
+            match error_display.as_str() {
+                "Geolocation information not found" => {
+                    eprintln!(
+                        "Error: Required information not found in the geolocation data. \nPlease provide a valid city name."
+                    );
                 }
                 _ => {
-                    eprintln!("Error retrieving geolocation information: {}", e);
-                    eprintln!("Unexpected error type: {:?}", e);
+                    eprintln!("Unexpected error type: {}", e);
                 }
             }
             return Ok(());
@@ -44,13 +45,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let weather_info = match weather_info_result {
         Ok(weather_info) => weather_info,
         Err(e) => {
-            match e.downcast_ref::<CustomError>() {
-                Some(CustomError::WeatherInfoNotFound) => {
-                    eprintln!("Error: Required information not found in the weather data. \
-                    Please check the units you provided. There may also be an issue with the external ressource.");
+            let error_display = format!("{}", e);
+            // TODO: Match on error type instead of error message
+            match error_display.as_str() {
+                "Weather information not found" => {
+                    eprintln!("Error: Required information not found in the weather data.");
                 }
                 _ => {
-                    eprintln!("Error retrieving weather information: {}", e);
+                    eprintln!("Unexpected error type: {}", e);
                 }
             }
             return Ok(());
