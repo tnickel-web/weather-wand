@@ -2,7 +2,7 @@ use super::super::CurrentWeather;
 use serde_json::Value;
 
 pub fn deserialize(
-    body: Result<std::string::String, Box<dyn std::error::Error>>,
+    body: Result<String, Box<dyn std::error::Error>>,
 ) -> Result<CurrentWeather, Box<dyn std::error::Error>> {
     let base_error_message: String = String::from("Please provide a valid city name and units.");
 

@@ -3,7 +3,7 @@ use super::Location;
 use serde_json::Value;
 
 pub fn deserialize(
-    body: Result<std::string::String, reqwest::Error>,
+    body: Result<String, reqwest::Error>,
 ) -> Result<Location, Box<dyn std::error::Error>> {
     let parsed_body: Value = serde_json::from_str(&body.unwrap())?;
 
