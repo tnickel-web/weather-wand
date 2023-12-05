@@ -185,6 +185,6 @@ cargo build --release --target x86_64-pc-windows-gnu
       run weather-wand --update")
 - [ ] Implement testing.
 - [ ] Solve node12 vs node16 issue for Actions.
-- [ ] Improve error handling so there is an error output instead of null values.
-- [ ] Set a timeout for the requests so the terminal is not stuck until fetch
+- [x] Improve error handling so there is an error output instead of null values.
+- [x] Set a timeout for the requests so the terminal is not stuck until fetch
       has finished when there is no / a slow internet connection.
