@@ -11,28 +11,23 @@ pub fn deserialize(
 
     let city_name = &parsed_body["results"][0]["name"]
         .as_str()
-        .ok_or_else(|| Box::new(CustomError::GeolocationNotFound))?
-        .to_string();
+        .ok_or_else(|| Box::new(CustomError::GeolocationNotFound))?;
 
     let timezone = &parsed_body["results"][0]["timezone"]
         .as_str()
-        .ok_or_else(|| Box::new(CustomError::GeolocationNotFound))?
-        .to_string();
+        .ok_or_else(|| Box::new(CustomError::GeolocationNotFound))?;
 
     let country_code = &parsed_body["results"][0]["country_code"]
         .as_str()
-        .ok_or_else(|| Box::new(CustomError::GeolocationNotFound))?
-        .to_string();
+        .ok_or_else(|| Box::new(CustomError::GeolocationNotFound))?;
 
     let latitude = &parsed_body["results"][0]["latitude"]
         .as_f64()
-        .ok_or_else(|| Box::new(CustomError::GeolocationNotFound))?
-        .to_string();
+        .ok_or_else(|| Box::new(CustomError::GeolocationNotFound))?;
 
     let longitude = &parsed_body["results"][0]["longitude"]
         .as_f64()
-        .ok_or_else(|| Box::new(CustomError::GeolocationNotFound))?
-        .to_string();
+        .ok_or_else(|| Box::new(CustomError::GeolocationNotFound))?;
 
     let location: Location = Location {
         name: city_name.to_string(),

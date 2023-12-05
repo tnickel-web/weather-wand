@@ -10,28 +10,23 @@ pub fn deserialize(
 
     let temperature = &parsed_body["current_weather"]["temperature"]
         .as_f64()
-        .ok_or_else(|| Box::new(CustomError::WeatherInfoNotFound))?
-        .to_string();
+        .ok_or_else(|| Box::new(CustomError::WeatherInfoNotFound))?;
 
     let windspeed = &parsed_body["current_weather"]["windspeed"]
         .as_f64()
-        .ok_or_else(|| Box::new(CustomError::WeatherInfoNotFound))?
-        .to_string();
+        .ok_or_else(|| Box::new(CustomError::WeatherInfoNotFound))?;
 
     let is_day = &parsed_body["current_weather"]["is_day"]
         .as_u64()
-        .ok_or_else(|| Box::new(CustomError::WeatherInfoNotFound))?
-        .to_string();
+        .ok_or_else(|| Box::new(CustomError::WeatherInfoNotFound))?;
 
     let time = &parsed_body["current_weather"]["time"]
         .as_str()
-        .ok_or_else(|| Box::new(CustomError::WeatherInfoNotFound))?
-        .to_string();
+        .ok_or_else(|| Box::new(CustomError::WeatherInfoNotFound))?;
 
     let timezone = &parsed_body["timezone"]
         .as_str()
-        .ok_or_else(|| Box::new(CustomError::WeatherInfoNotFound))?
-        .to_string();
+        .ok_or_else(|| Box::new(CustomError::WeatherInfoNotFound))?;
 
     let current_weather = CurrentWeather {
         temperature: temperature.to_string(),
