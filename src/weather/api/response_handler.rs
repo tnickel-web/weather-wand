@@ -4,7 +4,7 @@ use serde_json::Value;
 pub fn deserialize(
     body: Result<std::string::String, Box<dyn std::error::Error>>,
 ) -> Result<CurrentWeather, Box<dyn std::error::Error>> {
-    let base_error_message: String = String::from("Please provide valid city names and units.");
+    let base_error_message: String = String::from("Please provide a valid city name and units.");
 
     let parsed_body: Value =
         serde_json::from_str(&body?).map_err(|err| format!("Error parsing JSON: {}", err))?;
