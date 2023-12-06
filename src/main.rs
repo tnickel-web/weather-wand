@@ -19,9 +19,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             let error_display = format!("{}", e);
             // TODO: Match on error type instead of error message
             match error_display.as_str() {
-                "Geolocation information not found" => {
+                message if message.contains("Geolocation information not found") => {
                     eprintln!(
-                        "Error: Required information not found in the geolocation data. \nPlease provide a valid city name."
+                        "Error: Required information not found in the geolocation data \n{}\nPlease provide a valid city name", message
                     );
                 }
                 _ => {
@@ -44,8 +44,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             let error_display = format!("{}", e);
             // TODO: Match on error type instead of error message
             match error_display.as_str() {
-                "Weather information not found" => {
-                    eprintln!("Error: Required information not found in the weather data.");
+                message if message.contains("Weather information not found") => {
+                    eprintln!(
+                        "Error: Required information not found in the weather data \n{}\nPlease provide valid arguments",
+                        message
+                    );
                 }
                 _ => {
                     eprintln!("Unexpected error type: {}", e);
