@@ -34,14 +34,11 @@ impl WeatherOutput {
         let windspeed_formatted = format!(
             "{} {}",
             weather.windspeed,
-            if windspeed_unit == "ms" {
-                "m/s"
-            } else if windspeed_unit == "mph" {
-                "Mph"
-            } else if windspeed_unit == "kn" {
-                "Knots"
-            } else {
-                "Km/h"
+            match windspeed_unit {
+                "ms" => "m/s",
+                "mph" => "Mph",
+                "kn" => "Knots",
+                _ => "Km/h",
             }
         );
 
