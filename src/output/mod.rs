@@ -63,16 +63,7 @@ impl WeatherOutput {
             day_night_status.bright_blue()
         );
 
-        let converted_time: SystemTime =
-            UNIX_EPOCH + std::time::Duration::from_secs(weather.timestamp);
-        let formatted_time_12h = format!(
-            "{}",
-            DateTime::<Utc>::from(converted_time).format("%Y-%m-%d %I:%M %p")
-        );
-        let formatted_time_24h = format!(
-            "{}",
-            DateTime::<Utc>::from(converted_time).format("%Y-%m-%d %H:%M")
-        );
+        let formatted_time = format_time(weather.timestamp, clock_display);
 
         println!("┌{}┐", decoration);
         println!("  {}", header.cyan().bold(),);
@@ -88,14 +79,7 @@ impl WeatherOutput {
             geo_info.coordinates.longitude.bright_blue()
         );
         println!("{}", day_night_formatted);
-        println!(
-            "    Time:        {}",
-            if clock_display == "12h" {
-                formatted_time_12h.bright_blue()
-            } else {
-                formatted_time_24h.bright_blue()
-            }
-        );
+        println!("    Time:        {}", formatted_time.bright_blue());
         println!(
             "    Timezone:    {}",
             weather
@@ -106,4 +90,18 @@ impl WeatherOutput {
         );
         println!("└{}┘", decoration);
     }
+}
+
+fn format_time(timestamp: u64, clock_display: &str) -> String {
+    let converted_time: SystemTime = UNIX_EPOCH + std::time::Duration::from_secs(timestamp);
+
+    let format = if clock_display == "12h" {
+        "%Y-%m-%d %I:%M %p"
+    } else {
+        "%Y-%m-%d %H:%M"
+    };
+
+    let formatted_time = format!("{}", DateTime::<Utc>::from(converted_time).format(format));
+
+    formatted_time
 }
