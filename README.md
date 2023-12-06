@@ -179,7 +179,10 @@ cargo build --release --target x86_64-pc-windows-gnu
 - [x] Add build instructions to README.
 - [x] Publish a release.
 - [x] Add fmt instructions.
-- [ ] Add 24h/12h clock argument
+- [x] Add 24h/12h clock argument
+- [ ] Add metric/imperial argument for defining a set of units (fewer arguments needed)
+- [ ] Display x day forecast (use arguments)
+- [ ] Implement allowed values for arguments
 - [ ] Implement update checker when running + automate updating **or:** Check
       for updates on execution and display update instructions (e.g. "to update,
       run weather-wand --update")

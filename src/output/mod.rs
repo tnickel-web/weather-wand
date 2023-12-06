@@ -1,17 +1,21 @@
 use super::geolocation::Location;
 use super::weather::CurrentWeather;
+use crate::config::args::{ClockDisplay, TemperatureUnit, WindspeedUnit};
+use chrono::{DateTime, Utc};
 use colored::Colorize;
+use std::time::{SystemTime, UNIX_EPOCH};
 
 pub struct WeatherOutput {}
 
 impl WeatherOutput {
     pub fn print_output(
-        weather: CurrentWeather,
+        weather: &CurrentWeather,
         geo_info: &Location,
-        temperature_unit: &str,
-        windspeed_unit: &str,
+        temperature_unit: &TemperatureUnit,
+        windspeed_unit: &WindspeedUnit,
+        clock_display: &ClockDisplay,
     ) {
-        let header: String = format!(
+        let header = format!(
             "{} for {}, {}",
             "  Current Weather Report",
             geo_info.name.trim_matches('"'),
@@ -24,24 +28,20 @@ impl WeatherOutput {
         let temperature_formatted = format!(
             "{} {}",
             weather.temperature,
-            if temperature_unit == "fahrenheit" {
-                "°F"
-            } else {
-                "°C"
+            match temperature_unit {
+                TemperatureUnit::Fahrenheit => "°F",
+                TemperatureUnit::Celsius => "°C",
             }
         );
 
         let windspeed_formatted = format!(
             "{} {}",
             weather.windspeed,
-            if windspeed_unit == "ms" {
-                "m/s"
-            } else if windspeed_unit == "mph" {
-                "Mph"
-            } else if windspeed_unit == "kn" {
-                "Knots"
-            } else {
-                "Km/h"
+            match windspeed_unit {
+                WindspeedUnit::Ms => "m/s",
+                WindspeedUnit::Mph => "Mph",
+                WindspeedUnit::Kn => "Knots",
+                WindspeedUnit::Kmh => "Km/h",
             }
         );
 
@@ -63,6 +63,8 @@ impl WeatherOutput {
             day_night_status.bright_blue()
         );
 
+        let formatted_time = format_time(weather.timestamp, clock_display);
+
         println!("┌{}┐", decoration);
         println!("  {}", header.cyan().bold(),);
         println!("  󱣖  Temperature: {}", temperature_formatted.bright_blue());
@@ -77,14 +79,7 @@ impl WeatherOutput {
             geo_info.coordinates.longitude.bright_blue()
         );
         println!("{}", day_night_formatted);
-        println!(
-            "    Time:        {}",
-            weather
-                .time
-                .trim_matches('"')
-                .replace('T', " ")
-                .bright_blue()
-        );
+        println!("    Time:        {}", formatted_time.bright_blue());
         println!(
             "    Timezone:    {}",
             weather
@@ -95,4 +90,17 @@ impl WeatherOutput {
         );
         println!("└{}┘", decoration);
     }
+}
+
+fn format_time(timestamp: u64, clock_display: &ClockDisplay) -> String {
+    let converted_time: SystemTime = UNIX_EPOCH + std::time::Duration::from_secs(timestamp);
+
+    let format = match clock_display {
+        ClockDisplay::_12h => "%Y-%m-%d %I:%M %p",
+        ClockDisplay::_24h => "%Y-%m-%d %H:%M",
+    };
+
+    let formatted_time = format!("{}", DateTime::<Utc>::from(converted_time).format(format));
+
+    formatted_time
 }

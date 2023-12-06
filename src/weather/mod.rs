@@ -2,12 +2,13 @@ pub mod weather_api;
 
 use super::config::Config;
 use super::geolocation::Coordinates;
+use crate::config::args::{TemperatureUnit, WindspeedUnit};
 use weather_api::response_handler;
 
 pub async fn get_info_for(
     coordinates: &Coordinates,
-    temperature_unit: &str,
-    windspeed_unit: &str,
+    temperature_unit: &TemperatureUnit,
+    windspeed_unit: &WindspeedUnit,
 ) -> Result<CurrentWeather, Box<dyn std::error::Error>> {
     let base_url = Config::get_value("weather_api_url")?;
     let mut url_unmodified = WeatherApiUrl::new(base_url);
@@ -47,18 +48,22 @@ impl WeatherApiUrl {
 
     pub fn set_temperature_unit(
         &mut self,
-        temperature_unit: &str,
+        temperature_unit: &TemperatureUnit,
     ) -> Result<&mut WeatherApiUrl, Box<dyn std::error::Error>> {
-        self.url = self.url.replace("__TEMPERATURE_UNIT__", temperature_unit);
+        self.url = self
+            .url
+            .replace("__TEMPERATURE_UNIT__", &temperature_unit.to_string());
 
         Ok(self)
     }
 
     pub fn set_windspeed_unit(
         &mut self,
-        windspeed_unit: &str,
+        windspeed_unit: &WindspeedUnit,
     ) -> Result<&mut WeatherApiUrl, Box<dyn std::error::Error>> {
-        self.url = self.url.replace("__WINDSPEED_UNIT__", windspeed_unit);
+        self.url = self
+            .url
+            .replace("__WINDSPEED_UNIT__", &windspeed_unit.to_string());
 
         Ok(self)
     }
@@ -68,6 +73,6 @@ pub struct CurrentWeather {
     pub temperature: String,
     pub windspeed: String,
     pub is_day: String,
-    pub time: String,
+    pub timestamp: u64,
     pub timezone: String,
 }
