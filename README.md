@@ -176,18 +176,12 @@ cargo build --release --target x86_64-pc-windows-gnu
 
 ## ToDo
 
-- [x] Add build instructions to README.
-- [x] Publish a release.
-- [x] Add fmt instructions.
 - [x] Add 24h/12h clock argument
 - [ ] Add metric/imperial argument for defining a set of units (fewer arguments needed)
 - [ ] Display x day forecast (use arguments)
-- [ ] Implement allowed values for arguments
+- [x] Implement allowed values for arguments
 - [ ] Implement update checker when running + automate updating **or:** Check
       for updates on execution and display update instructions (e.g. "to update,
       run weather-wand --update")
 - [ ] Implement testing.
 - [ ] Solve node12 vs node16 issue for Actions.
-- [x] Improve error handling so there is an error output instead of null values.
-- [x] Set a timeout for the requests so the terminal is not stuck until fetch
-      has finished when there is no / a slow internet connection.
