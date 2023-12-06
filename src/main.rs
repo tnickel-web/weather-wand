@@ -10,11 +10,6 @@ use output::WeatherOutput;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    /*
-     * TODO: Display x day forecast (use arguments)
-     * TODO: Add request timout to avoid a blocked terminal when there is no connection
-     * TODO: Add possible values to arguments
-     */
     let args: Args = Args::parse();
 
     let geo_info_result = geolocation::get_info_for(&args.city[0]).await;
@@ -24,9 +19,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             let error_display = format!("{}", e);
             // TODO: Match on error type instead of error message
             match error_display.as_str() {
-                "Geolocation information not found" => {
+                message if message.contains("Geolocation information not found") => {
                     eprintln!(
-                        "Error: Required information not found in the geolocation data. \nPlease provide a valid city name."
+                        "Error: Required information not found in the geolocation data \n{}\nPlease provide a valid city name", message
                     );
                 }
                 _ => {
@@ -39,6 +34,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let temperature_unit = &args.temperature_unit;
     let windspeed_unit = &args.windspeed_unit;
+    let clock_display = &args.display;
 
     let weather_info_result =
         weather::get_info_for(&geo_info.coordinates, temperature_unit, windspeed_unit).await;
@@ -48,8 +44,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             let error_display = format!("{}", e);
             // TODO: Match on error type instead of error message
             match error_display.as_str() {
-                "Weather information not found" => {
-                    eprintln!("Error: Required information not found in the weather data.");
+                message if message.contains("Weather information not found") => {
+                    eprintln!(
+                        "Error: Required information not found in the weather data \n{}\nPlease provide valid arguments",
+                        message
+                    );
                 }
                 _ => {
                     eprintln!("Unexpected error type: {}", e);
@@ -59,8 +58,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     };
 
-    // TODO: Use struct/enum for handling all units (temperature_unit & metric/imperial)
-    WeatherOutput::print_output(weather_info, &geo_info, temperature_unit, windspeed_unit);
+    WeatherOutput::print_output(
+        &weather_info,
+        &geo_info,
+        temperature_unit,
+        windspeed_unit,
+        clock_display,
+    );
 
     Ok(())
 }
