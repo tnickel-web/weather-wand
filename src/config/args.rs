@@ -3,7 +3,7 @@ use clap::Parser;
 #[derive(Parser)]
 #[clap(
     version = "1.1.0",
-    about = "A CLI tool to fetch weather from an API and display a beautified output. Supports arguments for city, temperature- and windspeed unit."
+    about = "A CLI tool to fetch weather from an API and display a beautified output. Supports arguments for city, temperature- and wind speed unit."
 )]
 pub struct Args {
     /// The city you want to see the current weather for.
@@ -22,4 +22,10 @@ pub struct Args {
     /// | Example: --windspeed-unit mph.
     #[arg(short, long, default_value = "kmh")]
     pub windspeed_unit: String,
+
+    /// The clock's display mode.
+    /// | Possible values: "12h", "24h"
+    /// | Example: --display 12h
+    #[arg(short, long, default_value = "24h")]
+    pub display: String,
 }

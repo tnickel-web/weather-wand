@@ -34,6 +34,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let temperature_unit = &args.temperature_unit;
     let windspeed_unit = &args.windspeed_unit;
+    let clock_display = &args.display;
 
     let weather_info_result =
         weather::get_info_for(&geo_info.coordinates, temperature_unit, windspeed_unit).await;
@@ -54,7 +55,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     };
 
-    WeatherOutput::print_output(weather_info, &geo_info, temperature_unit, windspeed_unit);
+    WeatherOutput::print_output(
+        weather_info,
+        &geo_info,
+        temperature_unit,
+        windspeed_unit,
+        clock_display,
+    );
 
     Ok(())
 }

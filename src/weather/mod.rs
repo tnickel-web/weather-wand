@@ -68,6 +68,6 @@ pub struct CurrentWeather {
     pub temperature: String,
     pub windspeed: String,
     pub is_day: String,
-    pub time: String,
+    pub timestamp: u64,
     pub timezone: String,
 }

@@ -11,7 +11,6 @@ pub fn deserialize(
     let temperature = &parsed_body["current_weather"]["temperature"]
         .as_f64()
         .ok_or_else(|| Box::new(CustomError::WeatherInfoNotFound("temperature".to_string())))?;
-
     let windspeed = &parsed_body["current_weather"]["windspeed"]
         .as_f64()
         .ok_or_else(|| Box::new(CustomError::WeatherInfoNotFound("windspeed".to_string())))?;
@@ -20,8 +19,8 @@ pub fn deserialize(
         .as_u64()
         .ok_or_else(|| Box::new(CustomError::WeatherInfoNotFound("is_day".to_string())))?;
 
-    let time = &parsed_body["current_weather"]["time"]
-        .as_str()
+    let unix_timestamp = &parsed_body["current_weather"]["time"]
+        .as_u64()
         .ok_or_else(|| Box::new(CustomError::WeatherInfoNotFound("time".to_string())))?;
 
     let timezone = &parsed_body["timezone"]
