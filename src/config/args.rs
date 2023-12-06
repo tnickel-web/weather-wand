@@ -1,4 +1,5 @@
 use clap::Parser;
+use std::fmt::Display;
 
 #[derive(Parser)]
 #[clap(
@@ -15,17 +16,69 @@ pub struct Args {
     /// | Possible values: "celsius", "fahrenheit".
     /// | Example: --temperature-unit fahrenheit.
     #[arg(short, long, default_value = "celsius")]
-    pub temperature_unit: String,
+    pub temperature_unit: TemperatureUnit,
 
     /// The unit used for displaying the windspeed.
     /// | Possible values: "kmh", "ms", "mph", "kn".
     /// | Example: --windspeed-unit mph.
     #[arg(short, long, default_value = "kmh")]
-    pub windspeed_unit: String,
+    pub windspeed_unit: WindspeedUnit,
 
     /// The clock's display mode.
     /// | Possible values: "12h", "24h"
     /// | Example: --display 12h
     #[arg(short, long, default_value = "24h")]
-    pub display: String,
+    pub display: ClockDisplay,
+}
+
+#[derive(Clone, clap::ValueEnum)]
+pub enum TemperatureUnit {
+    Celsius,
+    Fahrenheit,
+}
+
+impl Display for TemperatureUnit {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let str = match self {
+            TemperatureUnit::Celsius => "celsius".to_string(),
+            TemperatureUnit::Fahrenheit => "fahrenheit".to_string(),
+        };
+        write!(f, "{}", str)
+    }
+}
+
+#[derive(Clone, clap::ValueEnum)]
+pub enum WindspeedUnit {
+    Kmh,
+    Ms,
+    Mph,
+    Kn,
+}
+
+impl Display for WindspeedUnit {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let str = match self {
+            WindspeedUnit::Kmh => "kmh".to_string(),
+            WindspeedUnit::Ms => "ms".to_string(),
+            WindspeedUnit::Mph => "mph".to_string(),
+            WindspeedUnit::Kn => "kn".to_string(),
+        };
+        write!(f, "{}", str)
+    }
+}
+
+#[derive(Clone, clap::ValueEnum)]
+pub enum ClockDisplay {
+    _12h,
+    _24h,
+}
+
+impl Display for ClockDisplay {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let str = match self {
+            ClockDisplay::_12h => "12h".to_string(),
+            ClockDisplay::_24h => "24h".to_string(),
+        };
+        write!(f, "{}", str)
+    }
 }

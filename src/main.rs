@@ -59,7 +59,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     };
 
     WeatherOutput::print_output(
-        weather_info,
+        &weather_info,
         &geo_info,
         temperature_unit,
         windspeed_unit,

@@ -1,5 +1,6 @@
 use super::geolocation::Location;
 use super::weather::CurrentWeather;
+use crate::config::args::{ClockDisplay, TemperatureUnit, WindspeedUnit};
 use chrono::{DateTime, Utc};
 use colored::Colorize;
 use std::time::{SystemTime, UNIX_EPOCH};
@@ -8,11 +9,11 @@ pub struct WeatherOutput {}
 
 impl WeatherOutput {
     pub fn print_output(
-        weather: CurrentWeather,
+        weather: &CurrentWeather,
         geo_info: &Location,
-        temperature_unit: &str,
-        windspeed_unit: &str,
-        clock_display: &str,
+        temperature_unit: &TemperatureUnit,
+        windspeed_unit: &WindspeedUnit,
+        clock_display: &ClockDisplay,
     ) {
         let header = format!(
             "{} for {}, {}",
@@ -27,10 +28,9 @@ impl WeatherOutput {
         let temperature_formatted = format!(
             "{} {}",
             weather.temperature,
-            if temperature_unit == "fahrenheit" {
-                "°F"
-            } else {
-                "°C"
+            match temperature_unit {
+                TemperatureUnit::Fahrenheit => "°F",
+                TemperatureUnit::Celsius => "°C",
             }
         );
 
@@ -38,10 +38,10 @@ impl WeatherOutput {
             "{} {}",
             weather.windspeed,
             match windspeed_unit {
-                "ms" => "m/s",
-                "mph" => "Mph",
-                "kn" => "Knots",
-                _ => "Km/h",
+                WindspeedUnit::Ms => "m/s",
+                WindspeedUnit::Mph => "Mph",
+                WindspeedUnit::Kn => "Knots",
+                WindspeedUnit::Kmh => "Km/h",
             }
         );
 
@@ -92,13 +92,12 @@ impl WeatherOutput {
     }
 }
 
-fn format_time(timestamp: u64, clock_display: &str) -> String {
+fn format_time(timestamp: u64, clock_display: &ClockDisplay) -> String {
     let converted_time: SystemTime = UNIX_EPOCH + std::time::Duration::from_secs(timestamp);
 
-    let format = if clock_display == "12h" {
-        "%Y-%m-%d %I:%M %p"
-    } else {
-        "%Y-%m-%d %H:%M"
+    let format = match clock_display {
+        ClockDisplay::_12h => "%Y-%m-%d %I:%M %p",
+        ClockDisplay::_24h => "%Y-%m-%d %H:%M",
     };
 
     let formatted_time = format!("{}", DateTime::<Utc>::from(converted_time).format(format));
