@@ -43,6 +43,7 @@ impl WeatherApiUrl {
         WeatherApiUrl { url: base_url }
     }
 
+    /// Replaces the coordinates placeholder in the Weather API URL with values.
     pub fn set_coordinates(
         &mut self,
         latitude: &str,
@@ -56,6 +57,7 @@ impl WeatherApiUrl {
         Ok(self)
     }
 
+    /// Replaces the temperature unit placeholder in the Weather API URL with a value.
     pub fn set_temperature_unit(
         &mut self,
         temperature_unit: &TemperatureUnit,
@@ -67,6 +69,7 @@ impl WeatherApiUrl {
         Ok(self)
     }
 
+    /// Replaces the wind speed unit placeholder in the Weather API URL with a value.
     pub fn set_windspeed_unit(
         &mut self,
         windspeed_unit: &WindspeedUnit,
