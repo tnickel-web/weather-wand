@@ -7,7 +7,7 @@ use std::time::Duration;
 pub struct Client {}
 
 impl Client {
-    pub async fn fetch(url: String) -> Result<String, Box<dyn std::error::Error>> {
+    pub async fn fetch(url: &str) -> Result<String, Box<dyn std::error::Error>> {
         let client = reqwest::Client::builder()
             .timeout(Duration::from_secs(2))
             .build()?;

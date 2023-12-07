@@ -4,9 +4,12 @@ use super::config::Config;
 use geo_api::response_handler;
 
 pub async fn get_info_for(location: &str) -> Result<Location, Box<dyn std::error::Error>> {
-    let url = GeoApiUrl::set_location(location)?.url;
-    let data = geo_api::Client::fetch(url).await;
-    let geo_info = response_handler::deserialize(data)?;
+    let base_url = Config::get_value("geo_api_url")?;
+    let mut url_unmodified = GeoApiUrl::new(base_url);
+
+    let url = &url_unmodified.set_location(location)?.url;
+
+    let geo_info = response_handler::deserialize(geo_api::Client::fetch(url).await)?;
 
     Ok(geo_info)
 }
@@ -28,10 +31,15 @@ pub struct GeoApiUrl {
 }
 
 impl GeoApiUrl {
-    pub fn set_location(location: &str) -> Result<GeoApiUrl, Box<dyn std::error::Error>> {
-        let url = Config::get_value("geo_api_url")?;
-        let new_url = url.replace("__NAME__", location);
+    pub fn new(base_url: String) -> Self {
+        GeoApiUrl { url: base_url }
+    }
+    pub fn set_location(
+        &mut self,
+        location: &str,
+    ) -> Result<&mut GeoApiUrl, Box<dyn std::error::Error>> {
+        self.url = self.url.replace("__NAME__", location);
 
-        Ok(GeoApiUrl { url: new_url })
+        Ok(self)
     }
 }
