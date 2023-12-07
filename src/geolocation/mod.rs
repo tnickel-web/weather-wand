@@ -26,6 +26,8 @@ pub struct Location {
     pub coordinates: Coordinates,
 }
 
+/// A struct representing the `url` of the geolocation API.
+/// Placeholder in the `url` get replaced using setters.
 pub struct GeoApiUrl {
     pub url: String,
 }

@@ -2,6 +2,19 @@ use super::super::CurrentWeather;
 use crate::errors::CustomError;
 use serde_json::Value;
 
+/// Deserializes a JSON string into a `CurrentWeather` struct.
+///
+/// # Arguments
+/// * `body`: A `Result` containing a JSON string or an error.
+///
+/// # Returns
+/// Returns a `Result` containing a `CurrentWeather` instance if deserialization is successful,
+/// or an error if the JSON structure is invalid or essential weather information is missing.
+///
+/// # Errors
+/// This function can return errors in the following scenarios:
+/// * The JSON string cannot be parsed.
+/// * Essential weather information (e.g., temperature, timezone) is not found in the JSON structure.
 pub fn deserialize(
     body: Result<String, Box<dyn std::error::Error>>,
 ) -> Result<CurrentWeather, Box<dyn std::error::Error>> {

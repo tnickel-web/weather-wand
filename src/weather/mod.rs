@@ -5,6 +5,14 @@ use super::geolocation::Coordinates;
 use crate::config::args::{TemperatureUnit, WindspeedUnit};
 use weather_api::response_handler;
 
+pub struct CurrentWeather {
+    pub temperature: String,
+    pub windspeed: String,
+    pub is_day: String,
+    pub timestamp: u64,
+    pub timezone: String,
+}
+
 pub async fn get_info_for(
     coordinates: &Coordinates,
     temperature_unit: &TemperatureUnit,
@@ -24,6 +32,8 @@ pub async fn get_info_for(
     Ok(weather_info)
 }
 
+/// A struct representing the `url` of the weather API.
+/// Placeholder in the `url` get replaced using setters.
 pub struct WeatherApiUrl {
     pub url: String,
 }
@@ -67,12 +77,4 @@ impl WeatherApiUrl {
 
         Ok(self)
     }
-}
-
-pub struct CurrentWeather {
-    pub temperature: String,
-    pub windspeed: String,
-    pub is_day: String,
-    pub timestamp: u64,
-    pub timezone: String,
 }

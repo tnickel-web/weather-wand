@@ -5,6 +5,18 @@ pub mod response_handler;
 pub struct Client {}
 
 impl Client {
+    /// Fetches data from the specified URL using an asynchronous HTTP request.
+    ///
+    /// # Arguments
+    /// * `url`: The URL from which to fetch the data.
+    ///
+    /// # Returns
+    /// Returns a `Result` containing a string with the fetched data if successful,
+    /// or an error if the request fails, the timeout is exceeded, or the URL is invalid.
+    ///
+    /// # Panics
+    /// Panics if the HTTP request fails and the client is unable to handle the error,
+    /// resulting in termination of the program with an error message.
     pub async fn fetch(url: &str) -> Result<String, Box<dyn std::error::Error>> {
         let client = reqwest::Client::builder()
             .timeout(Duration::from_secs(2))
