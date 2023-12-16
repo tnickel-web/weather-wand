@@ -43,3 +43,23 @@ impl Config {
         Ok(json_value)
     }
 }
+#[cfg(test)]
+mod tests {
+    use super::Config;
+
+    #[test]
+    fn get_value_returns_correct_geo_api_url() {
+        assert_eq!(
+            Config::get_value("geo_api_url").unwrap(), 
+            "https://geocoding-api.open-meteo.com/v1/search?name=__NAME__&count=1&language=en&format=json"
+        );
+    }
+
+    #[test]
+    fn get_value_returns_correct_weather_api_url() {
+        assert_eq!(
+            Config::get_value("weather_api_url").unwrap(),
+            "https://api.open-meteo.com/v1/forecast?latitude=__LAT__&longitude=__LON__&current_weather=true&temperature_unit=__TEMPERATURE_UNIT__&timezone=auto&windspeed_unit=__WINDSPEED_UNIT__&timeformat=unixtime"
+        );
+    }
+}
