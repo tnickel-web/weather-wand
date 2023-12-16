@@ -1,7 +1,7 @@
 use super::geolocation::Location;
 use super::weather::CurrentWeather;
 use crate::config::args::{ClockDisplay, TemperatureUnit, WindspeedUnit};
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, Local, Utc};
 use colored::Colorize;
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -72,7 +72,7 @@ impl WeatherOutput {
             day_night_status.bright_blue()
         );
 
-        let formatted_date = format_date(weather.timestamp, clock_display);
+        let formatted_date_local = format_date(weather.timestamp, clock_display).local;
 
         println!("┌{}┐", decoration);
         println!("  {}", header.cyan().bold(),);
@@ -88,7 +88,7 @@ impl WeatherOutput {
             geo_info.coordinates.longitude.bright_blue()
         );
         println!("{}", day_night_formatted);
-        println!("    Time:        {}", formatted_date.bright_blue());
+        println!("    Time:        {}", formatted_date_local.bright_blue());
         println!(
             "    Timezone:    {}",
             geo_info
@@ -101,17 +101,26 @@ impl WeatherOutput {
     }
 }
 
-fn format_date(timestamp: u64, clock_display: &ClockDisplay) -> String {
-    let converted_time: SystemTime = UNIX_EPOCH + std::time::Duration::from_secs(timestamp);
+struct FormattedDates {
+    utc: String,
+    local: String,
+}
+fn format_date(timestamp: u64, clock_display: &ClockDisplay) -> FormattedDates {
+    let converted_date: SystemTime = UNIX_EPOCH + std::time::Duration::from_secs(timestamp);
 
     let format = match clock_display {
         ClockDisplay::_12h => "%Y-%m-%d %I:%M %p",
         ClockDisplay::_24h => "%Y-%m-%d %H:%M",
     };
 
-    let formatted_time = format!("{}", DateTime::<Utc>::from(converted_time).format(format));
+    let formatted_date_utc = format!("{}", DateTime::<Utc>::from(converted_date).format(format));
+    let formatted_date_local =
+        format!("{}", DateTime::<Local>::from(converted_date).format(format));
 
-    formatted_time
+    FormattedDates {
+        utc: formatted_date_utc,
+        local: formatted_date_local,
+    }
 }
 
 #[cfg(test)]
@@ -120,11 +129,14 @@ mod tests {
     use crate::config::args::ClockDisplay;
 
     #[test]
-    fn format_time_returns_correctly_formatted_date() {
-        let formatted_time_12h = format_date(1672531200, &ClockDisplay::_12h);
-        let formatted_time_24h = format_date(1672531200, &ClockDisplay::_24h);
-
-        assert_eq!("2023-01-01 12:00 AM", formatted_time_12h);
-        assert_eq!("2023-01-01 00:00", formatted_time_24h);
+    fn format_date_returns_correctly_formatted_utc_date() {
+        assert_eq!(
+            "2023-01-01 12:00 AM",
+            format_date(1672531200, &ClockDisplay::_12h).utc
+        );
+        assert_eq!(
+            "2023-01-01 00:00",
+            format_date(1672531200, &ClockDisplay::_24h).utc
+        );
     }
 }
