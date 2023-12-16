@@ -5,6 +5,7 @@ use super::geolocation::Coordinates;
 use crate::config::args::{TemperatureUnit, WindspeedUnit};
 use weather_api::response_handler;
 
+/// A struct representing the current weather using `temperature`, `windspeed`, `is_day`, `timestamp` and `timezone`
 pub struct CurrentWeather {
     pub temperature: String,
     pub windspeed: String,
@@ -13,6 +14,20 @@ pub struct CurrentWeather {
     pub timezone: String,
 }
 
+/// Asynchronously retrieves location information for a given location string.
+///
+/// # Arguments
+/// * `location`: The location for which to retrieve information.
+///
+/// # Returns
+/// Returns a `Result` containing a `CurrentWeather` instance if successful,
+/// or an error if the retrieval fails, the URL is invalid, or the API response is malformed.
+///
+/// # Errors
+/// This function can return errors in the following scenarios:
+/// * The URL construction or modification fails.
+/// * The HTTP request to the Weather API fails.
+/// * Deserialization of the API response into a `CurrentWeather` struct fails.
 pub async fn get_info_for(
     coordinates: &Coordinates,
     temperature_unit: &TemperatureUnit,
@@ -39,6 +54,7 @@ pub struct WeatherApiUrl {
 }
 
 impl WeatherApiUrl {
+    /// Instantiate a new `WeatherApiUrl` instance.
     pub fn new(base_url: String) -> Self {
         WeatherApiUrl { url: base_url }
     }

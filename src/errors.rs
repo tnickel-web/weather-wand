@@ -1,9 +1,13 @@
 use std::error::Error;
 use std::fmt;
 
+/// Represents custom errors that may occur during weather and geolocation operations.
 #[derive(Debug, Clone)]
 pub enum CustomError {
+    /// Indicates that the weather information could not be parsed correctly.
     WeatherInfoNotFound(String),
+
+    /// Indicates that the geolocation information could not be parsed correctly.
     GeolocationNotFound(String),
 }
 

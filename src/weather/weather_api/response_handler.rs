@@ -14,7 +14,7 @@ use serde_json::Value;
 /// # Errors
 /// This function can return errors in the following scenarios:
 /// * The JSON string cannot be parsed.
-/// * Essential weather information (e.g., temperature, timezone) is not found in the JSON structure.
+/// * Essential weather information (e.g. temperature, timezone) is not found in the JSON structure.
 pub fn deserialize(
     body: Result<String, Box<dyn std::error::Error>>,
 ) -> Result<CurrentWeather, Box<dyn std::error::Error>> {
@@ -24,6 +24,7 @@ pub fn deserialize(
     let temperature = &parsed_body["current_weather"]["temperature"]
         .as_f64()
         .ok_or_else(|| Box::new(CustomError::WeatherInfoNotFound("temperature".to_string())))?;
+
     let windspeed = &parsed_body["current_weather"]["windspeed"]
         .as_f64()
         .ok_or_else(|| Box::new(CustomError::WeatherInfoNotFound("windspeed".to_string())))?;

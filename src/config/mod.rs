@@ -43,6 +43,7 @@ impl Config {
         Ok(json_value)
     }
 }
+
 #[cfg(test)]
 mod tests {
     use super::Config;

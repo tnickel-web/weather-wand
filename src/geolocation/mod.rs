@@ -3,6 +3,12 @@ pub mod geo_api;
 use super::config::Config;
 use geo_api::response_handler;
 
+/// A struct representing a cities coordinates using `latitude` and `longitude`
+pub struct Coordinates {
+    pub latitude: String,
+    pub longitude: String,
+}
+
 /// Asynchronously retrieves location information for a given location string.
 ///
 /// # Arguments
@@ -26,12 +32,6 @@ pub async fn get_info_for(location: &str) -> Result<Location, Box<dyn std::error
     let geo_info = response_handler::deserialize(geo_api::Client::fetch(url).await)?;
 
     Ok(geo_info)
-}
-
-/// A struct representing a cities coordinates using `latitude` and `longitude`
-pub struct Coordinates {
-    pub latitude: String,
-    pub longitude: String,
 }
 
 /// A struct representing a location using `name`, `country_code`, `timezone` and the `Coordinates` struct.

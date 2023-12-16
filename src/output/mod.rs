@@ -8,6 +8,15 @@ use std::time::{SystemTime, UNIX_EPOCH};
 pub struct WeatherOutput {}
 
 impl WeatherOutput {
+    /// Prints the current weather report to the console.
+    ///
+    /// # Arguments
+    ///
+    /// * `weather`: A reference to the `CurrentWeather` struct containing weather information.
+    /// * `geo_info`: A reference to the `Location` struct containing geolocation information.
+    /// * `temperature_unit`: The unit for temperature display (e.g. Celsius or Fahrenheit).
+    /// * `windspeed_unit`: The unit for windspeed display (e.g. m/s or mph).
+    /// * `clock_display`: The clock display format (12-hour or 24-hour).
     pub fn print_output(
         weather: &CurrentWeather,
         geo_info: &Location,

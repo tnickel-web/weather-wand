@@ -3,6 +3,19 @@ use super::Location;
 use crate::errors::CustomError;
 use serde_json::Value;
 
+/// Deserializes a JSON string into a `Location` struct.
+///
+/// # Arguments
+/// * `body`: A `Result` containing a JSON string or an error.
+///
+/// # Returns
+/// Returns a `Result` containing a `Location` instance if deserialization is successful,
+/// or an error if the JSON structure is invalid or geolocation information is missing.
+///
+/// # Errors
+/// This function can return errors in the following scenarios:
+/// * The JSON string cannot be parsed.
+/// * Essential geolocation information (e.g. name, latitude) is not found in the JSON structure.
 pub fn deserialize(
     body: Result<String, Box<dyn std::error::Error>>,
 ) -> Result<Location, Box<dyn std::error::Error>> {
