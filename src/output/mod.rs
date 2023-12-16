@@ -72,7 +72,7 @@ impl WeatherOutput {
             day_night_status.bright_blue()
         );
 
-        let formatted_time = format_time(weather.timestamp, clock_display);
+        let formatted_date = format_date(weather.timestamp, clock_display);
 
         println!("┌{}┐", decoration);
         println!("  {}", header.cyan().bold(),);
@@ -88,7 +88,7 @@ impl WeatherOutput {
             geo_info.coordinates.longitude.bright_blue()
         );
         println!("{}", day_night_formatted);
-        println!("    Time:        {}", formatted_time.bright_blue());
+        println!("    Time:        {}", formatted_date.bright_blue());
         println!(
             "    Timezone:    {}",
             geo_info
@@ -101,7 +101,7 @@ impl WeatherOutput {
     }
 }
 
-fn format_time(timestamp: u64, clock_display: &ClockDisplay) -> String {
+fn format_date(timestamp: u64, clock_display: &ClockDisplay) -> String {
     let converted_time: SystemTime = UNIX_EPOCH + std::time::Duration::from_secs(timestamp);
 
     let format = match clock_display {
@@ -112,4 +112,19 @@ fn format_time(timestamp: u64, clock_display: &ClockDisplay) -> String {
     let formatted_time = format!("{}", DateTime::<Local>::from(converted_time).format(format));
 
     formatted_time
+}
+
+#[cfg(test)]
+mod tests {
+    use super::format_date;
+    use crate::config::args::ClockDisplay;
+
+    #[test]
+    fn format_time_returns_correctly_formatted_date() {
+        let formatted_time_12h = format_date(1672531200, &ClockDisplay::_12h);
+        let formatted_time_24h = format_date(1672531200, &ClockDisplay::_24h);
+
+        assert_eq!("2023-01-01 01:00 AM", formatted_time_12h);
+        assert_eq!("2023-01-01 01:00", formatted_time_24h);
+    }
 }
