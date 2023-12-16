@@ -102,9 +102,11 @@ impl WeatherOutput {
 }
 
 struct FormattedDates {
+    #[allow(dead_code)]
     utc: String,
     local: String,
 }
+
 fn format_date(timestamp: u64, clock_display: &ClockDisplay) -> FormattedDates {
     let converted_date: SystemTime = UNIX_EPOCH + std::time::Duration::from_secs(timestamp);
 
@@ -127,16 +129,40 @@ fn format_date(timestamp: u64, clock_display: &ClockDisplay) -> FormattedDates {
 mod tests {
     use super::format_date;
     use crate::config::args::ClockDisplay;
+    use chrono::{Local, TimeZone, Utc};
 
     #[test]
-    fn format_date_returns_correctly_formatted_utc_date() {
+    fn format_date_returns_correctly_formatted_dates() {
+        let timestamp = 1672531200;
         assert_eq!(
             "2023-01-01 12:00 AM",
-            format_date(1672531200, &ClockDisplay::_12h).utc
+            format_date(timestamp, &ClockDisplay::_12h).utc
         );
         assert_eq!(
             "2023-01-01 00:00",
-            format_date(1672531200, &ClockDisplay::_24h).utc
+            format_date(timestamp, &ClockDisplay::_24h).utc
+        );
+
+        // Convert UTC to local
+        let local_time_12h_expected = Utc
+            .timestamp(timestamp as i64, 0)
+            .with_timezone(&Local)
+            .format("%Y-%m-%d %I:%M %p")
+            .to_string();
+        assert_eq!(
+            local_time_12h_expected,
+            format_date(timestamp, &ClockDisplay::_12h).local
+        );
+
+        // Convert UTC to local
+        let local_time_24h_expected = Utc
+            .timestamp(timestamp as i64, 0)
+            .with_timezone(&Local)
+            .format("%Y-%m-%d %H:%M")
+            .to_string();
+        assert_eq!(
+            local_time_24h_expected,
+            format_date(timestamp, &ClockDisplay::_24h).local
         );
     }
 }
