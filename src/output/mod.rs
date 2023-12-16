@@ -145,7 +145,7 @@ mod tests {
 
         // Convert UTC to local
         let local_time_12h_expected = Utc
-            .timestamp_opt(1672531200, 0)
+            .timestamp_opt(timestamp as i64, 0)
             .earliest()
             .unwrap()
             .with_timezone(&Local)
@@ -158,7 +158,7 @@ mod tests {
 
         // Convert UTC to local
         let local_time_24h_expected = Utc
-            .timestamp_opt(1672531200, 0)
+            .timestamp_opt(timestamp as i64, 0)
             .earliest()
             .unwrap()
             .with_timezone(&Local)
