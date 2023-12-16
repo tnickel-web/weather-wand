@@ -5,13 +5,12 @@ use super::geolocation::Coordinates;
 use crate::config::args::{TemperatureUnit, WindspeedUnit};
 use weather_api::response_handler;
 
-/// A struct representing the current weather using `temperature`, `windspeed`, `is_day`, `timestamp` and `timezone`
+/// A struct representing the current weather using `temperature`, `windspeed`, `is_day` and `timestamp`.
 pub struct CurrentWeather {
     pub temperature: String,
     pub windspeed: String,
     pub is_day: String,
     pub timestamp: u64,
-    pub timezone: String,
 }
 
 /// Asynchronously retrieves location information for a given location string.

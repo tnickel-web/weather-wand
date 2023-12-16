@@ -91,7 +91,7 @@ impl WeatherOutput {
         println!("    Time:        {}", formatted_time.bright_blue());
         println!(
             "    Timezone:    {}",
-            weather
+            geo_info
                 .timezone
                 .trim_matches('"')
                 .replace('_', " ")
