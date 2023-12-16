@@ -48,7 +48,7 @@ pub struct GeoApiUrl {
 }
 
 impl GeoApiUrl {
-    /// Instantiate a new `GeoApiUrl`.
+    /// Instantiate a new `GeoApiUrl` instance.
     pub fn new(base_url: String) -> Self {
         GeoApiUrl { url: base_url }
     }
@@ -61,5 +61,32 @@ impl GeoApiUrl {
         self.url = self.url.replace("__NAME__", location);
 
         Ok(self)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{get_info_for, Config, GeoApiUrl};
+    use tokio_test::block_on;
+
+    #[test]
+    fn set_location_inserts_location_into_string() {
+        let mut geo_api_url = GeoApiUrl::new(Config::get_value("geo_api_url").unwrap());
+
+        assert_eq!(
+            geo_api_url.set_location("New York").unwrap().url,
+            "https://geocoding-api.open-meteo.com/v1/search?name=New York&count=1&language=en&format=json"
+        );
+    }
+
+    #[test]
+    fn get_info_for_fetches_correct_geolocation_information() {
+        let result = block_on(async { get_info_for("New York").await }).unwrap();
+
+        assert_eq!(result.name, "New York");
+        assert_eq!(result.country_code, "US");
+        assert_eq!(result.timezone, "America/New_York");
+        assert_eq!(result.coordinates.latitude, "40.71427");
+        assert_eq!(result.coordinates.longitude, "-74.00597");
     }
 }
