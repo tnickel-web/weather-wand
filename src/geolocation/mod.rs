@@ -68,7 +68,6 @@ impl GeoApiUrl {
 #[cfg(test)]
 mod tests {
     use super::{get_info_for, Config, GeoApiUrl};
-    use tokio_test::block_on;
 
     #[test]
     fn setters_insert_correct_information_into_url() {
@@ -81,9 +80,9 @@ mod tests {
         assert_eq!(actual_url, expected_url);
     }
 
-    #[test]
-    fn get_info_for_fetches_required_geolocation_information() {
-        let result = block_on(async { get_info_for("New York").await }).unwrap();
+    #[tokio::test]
+    async fn get_info_for_fetches_required_geolocation_information() {
+        let result = get_info_for("New York").await.unwrap();
 
         assert_eq!(result.name, "New York");
         assert_eq!(result.country_code, "US");

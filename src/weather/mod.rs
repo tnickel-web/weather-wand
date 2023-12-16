@@ -105,7 +105,6 @@ mod tests {
     use crate::weather;
     use crate::weather::WeatherApiUrl;
     use std::time::{SystemTime, UNIX_EPOCH};
-    use tokio_test::block_on;
     use weather::get_info_for;
 
     #[test]
@@ -126,19 +125,17 @@ mod tests {
         assert_eq!(actual_url, expected_url);
     }
 
-    #[test]
-    fn get_info_for_fetches_required_weather_information() {
-        let result = block_on(async {
-            get_info_for(
-                &Coordinates {
-                    latitude: "40.71427".to_string(),
-                    longitude: "-74.00597".to_string(),
-                },
-                &TemperatureUnit::Celsius,
-                &WindspeedUnit::Kmh,
-            )
-            .await
-        })
+    #[tokio::test]
+    async fn get_info_for_fetches_required_weather_information() {
+        let result = get_info_for(
+            &Coordinates {
+                latitude: "40.71427".to_string(),
+                longitude: "-74.00597".to_string(),
+            },
+            &TemperatureUnit::Celsius,
+            &WindspeedUnit::Kmh,
+        )
+        .await
         .unwrap();
 
         assert!(!result.temperature.is_empty());
