@@ -1,7 +1,7 @@
 use super::geolocation::Location;
 use super::weather::CurrentWeather;
 use crate::config::args::{ClockDisplay, TemperatureUnit, WindspeedUnit};
-use chrono::{DateTime, Local};
+use chrono::{DateTime, Utc};
 use colored::Colorize;
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -109,7 +109,7 @@ fn format_date(timestamp: u64, clock_display: &ClockDisplay) -> String {
         ClockDisplay::_24h => "%Y-%m-%d %H:%M",
     };
 
-    let formatted_time = format!("{}", DateTime::<Local>::from(converted_time).format(format));
+    let formatted_time = format!("{}", DateTime::<Utc>::from(converted_time).format(format));
 
     formatted_time
 }
@@ -124,7 +124,7 @@ mod tests {
         let formatted_time_12h = format_date(1672531200, &ClockDisplay::_12h);
         let formatted_time_24h = format_date(1672531200, &ClockDisplay::_24h);
 
-        assert_eq!("2023-01-01 01:00 AM", formatted_time_12h);
-        assert_eq!("2023-01-01 01:00", formatted_time_24h);
+        assert_eq!("2023-01-01 12:00 AM", formatted_time_12h);
+        assert_eq!("2023-01-01 00:00", formatted_time_24h);
     }
 }
