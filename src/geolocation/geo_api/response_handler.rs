@@ -15,14 +15,15 @@ use serde_json::Value;
 /// # Errors
 /// This function can return errors in the following scenarios:
 /// * The JSON string cannot be parsed.
-/// * Essential geolocation information (e.g. name, latitude) is not found in the JSON structure.
+/// * No results are found in the JSON structure.
+/// * An error field is found in the JSON structure..
 pub fn deserialize(
     body: Result<String, Box<dyn std::error::Error>>,
 ) -> Result<Location, Box<dyn std::error::Error>> {
     let parsed_body: Value =
         serde_json::from_str(&body?).map_err(|err| format!("Error parsing JSON: {}", err))?;
 
-    if parsed_body["results"].is_null() {
+    if parsed_body["error"] == true || parsed_body["results"].is_null() {
         return Err(Box::new(CustomError::GeolocationNotFound(
             "results".to_string(),
         )));

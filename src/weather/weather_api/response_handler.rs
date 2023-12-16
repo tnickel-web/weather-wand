@@ -9,12 +9,12 @@ use serde_json::Value;
 ///
 /// # Returns
 /// Returns a `Result` containing a `CurrentWeather` instance if deserialization is successful,
-/// or an error if the JSON structure is invalid or essential weather information is missing.
+/// or an error if the JSON structure is invalid or an API error exists.
 ///
 /// # Errors
 /// This function can return errors in the following scenarios:
 /// * The JSON string cannot be parsed.
-/// * Essential weather information (e.g. temperature, windspeed) is not found in the JSON structure.
+/// * An error field is found in the JSON structure.
 pub fn deserialize(
     body: Result<String, Box<dyn std::error::Error>>,
 ) -> Result<CurrentWeather, Box<dyn std::error::Error>> {
