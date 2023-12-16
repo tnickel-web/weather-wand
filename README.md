@@ -183,5 +183,5 @@ cargo build --release --target x86_64-pc-windows-gnu
 - [ ] Implement update checker when running + automate updating **or:** Check
       for updates on execution and display update instructions (e.g. "to update,
       run weather-wand --update")
-- [ ] Implement testing.
+- [x] Implement testing.
 - [ ] Solve node12 vs node16 issue for Actions.

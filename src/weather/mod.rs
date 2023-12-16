@@ -47,7 +47,7 @@ pub async fn get_info_for(
 }
 
 /// A struct representing the `url` of the weather API.
-/// Placeholder in the `url` get replaced using setters.
+/// Placeholders in the `url` get replaced using setters.
 pub struct WeatherApiUrl {
     pub url: String,
 }
@@ -94,5 +94,64 @@ impl WeatherApiUrl {
             .replace("__WINDSPEED_UNIT__", &windspeed_unit.to_string());
 
         Ok(self)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::config::args::{TemperatureUnit, WindspeedUnit};
+    use crate::config::Config;
+    use crate::geolocation::Coordinates;
+    use crate::weather;
+    use crate::weather::WeatherApiUrl;
+    use std::time::{SystemTime, UNIX_EPOCH};
+    use tokio_test::block_on;
+    use weather::get_info_for;
+
+    #[test]
+    fn setters_insert_correct_information_into_url() {
+        let mut weather_api_url = WeatherApiUrl::new(Config::get_value("weather_api_url").unwrap());
+
+        let expected_url = "https://api.open-meteo.com/v1/forecast?latitude=40.71427&longitude=-74.00597&current_weather=true&temperature_unit=celsius&timezone=auto&windspeed_unit=kmh&timeformat=unixtime";
+
+        let actual_url = &weather_api_url
+            .set_coordinates("40.71427", "-74.00597")
+            .unwrap()
+            .set_temperature_unit(&TemperatureUnit::Celsius)
+            .unwrap()
+            .set_windspeed_unit(&WindspeedUnit::Kmh)
+            .unwrap()
+            .url;
+
+        assert_eq!(actual_url, expected_url);
+    }
+
+    #[test]
+    fn get_info_for_fetches_required_weather_information() {
+        let result = block_on(async {
+            get_info_for(
+                &Coordinates {
+                    latitude: "40.71427".to_string(),
+                    longitude: "-74.00597".to_string(),
+                },
+                &TemperatureUnit::Celsius,
+                &WindspeedUnit::Kmh,
+            )
+            .await
+        })
+        .unwrap();
+
+        assert!(!result.temperature.is_empty());
+        assert!(!result.windspeed.is_empty());
+        assert!(!result.is_day.is_empty());
+        assert!(result.timestamp > 0);
+        assert!(result.timestamp < current_timestamp());
+    }
+
+    fn current_timestamp() -> u64 {
+        SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("System Time before UNIX EPOCH.")
+            .as_secs()
     }
 }

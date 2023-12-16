@@ -42,7 +42,8 @@ pub struct Location {
     pub coordinates: Coordinates,
 }
 
-/// A struct representing the `url` of the geolocation API. Placeholders in the `url` get replaced using setters.
+/// A struct representing the `url` of the geolocation API.
+/// Placeholders in the `url` get replaced using setters.
 pub struct GeoApiUrl {
     pub url: String,
 }
@@ -70,17 +71,18 @@ mod tests {
     use tokio_test::block_on;
 
     #[test]
-    fn set_location_inserts_location_into_string() {
+    fn setters_insert_correct_information_into_url() {
         let mut geo_api_url = GeoApiUrl::new(Config::get_value("geo_api_url").unwrap());
 
-        assert_eq!(
-            geo_api_url.set_location("New York").unwrap().url,
-            "https://geocoding-api.open-meteo.com/v1/search?name=New York&count=1&language=en&format=json"
-        );
+        let expected_url = "https://geocoding-api.open-meteo.com/v1/search?name=New York&count=1&language=en&format=json";
+
+        let actual_url = &geo_api_url.set_location("New York").unwrap().url;
+
+        assert_eq!(actual_url, expected_url);
     }
 
     #[test]
-    fn get_info_for_fetches_correct_geolocation_information() {
+    fn get_info_for_fetches_required_geolocation_information() {
         let result = block_on(async { get_info_for("New York").await }).unwrap();
 
         assert_eq!(result.name, "New York");
