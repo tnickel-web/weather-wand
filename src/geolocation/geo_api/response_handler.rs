@@ -22,25 +22,17 @@ pub fn deserialize(
     let parsed_body: Value =
         serde_json::from_str(&body?).map_err(|err| format!("Error parsing JSON: {}", err))?;
 
-    let city_name = &parsed_body["results"][0]["name"]
-        .as_str()
-        .ok_or_else(|| Box::new(CustomError::GeolocationNotFound("name".to_string())))?;
+    if parsed_body["results"].is_null() {
+        return Err(Box::new(CustomError::GeolocationNotFound(
+            "results".to_string(),
+        )));
+    }
 
-    let timezone = &parsed_body["results"][0]["timezone"]
-        .as_str()
-        .ok_or_else(|| Box::new(CustomError::GeolocationNotFound("timezone".to_string())))?;
-
-    let country_code = &parsed_body["results"][0]["country_code"]
-        .as_str()
-        .ok_or_else(|| Box::new(CustomError::GeolocationNotFound("country_code".to_string())))?;
-
-    let latitude = &parsed_body["results"][0]["latitude"]
-        .as_f64()
-        .ok_or_else(|| Box::new(CustomError::GeolocationNotFound("latitude".to_string())))?;
-
-    let longitude = &parsed_body["results"][0]["longitude"]
-        .as_f64()
-        .ok_or_else(|| Box::new(CustomError::GeolocationNotFound("longitude".to_string())))?;
+    let city_name = &parsed_body["results"][0]["name"].as_str().unwrap();
+    let timezone = &parsed_body["results"][0]["timezone"].as_str().unwrap();
+    let country_code = &parsed_body["results"][0]["country_code"].as_str().unwrap();
+    let latitude = &parsed_body["results"][0]["latitude"].as_f64().unwrap();
+    let longitude = &parsed_body["results"][0]["longitude"].as_f64().unwrap();
 
     let location: Location = Location {
         name: city_name.to_string(),
@@ -53,4 +45,38 @@ pub fn deserialize(
     };
 
     Ok(location)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::deserialize;
+
+    #[test]
+    fn deserialize_creates_correct_location_struct() {
+        let json =
+            r#"{"results":[{"name":"New York","latitude":40.71427,"longitude":-74.00597,"country_code":"US","timezone":"America/New_York"}]}"#.to_string();
+
+        let result = deserialize(Ok(json)).unwrap();
+
+        assert_eq!(result.name, "New York");
+        assert_eq!(result.coordinates.latitude, "40.71427");
+        assert_eq!(result.coordinates.longitude, "-74.00597");
+        assert_eq!(result.country_code, "US");
+        assert_eq!(result.timezone, "America/New_York");
+    }
+
+    #[test]
+    fn deserialize_throws_error_on_invalid_city_name() {
+        // The geolocation API returns the "generationtime_ms" JSON field if the city name is invalid,
+        // so we use this to trigger the GeolocationNotFound error.
+        let result = deserialize(Ok(r#"{"generationtime_ms": 0.0}"#.to_string()));
+
+        assert!(result.is_err());
+
+        if let Some(err) = result.err() {
+            assert!(err
+                .to_string()
+                .contains("Geolocation information not found"));
+        }
+    }
 }

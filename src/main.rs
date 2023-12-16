@@ -38,6 +38,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let weather_info_result =
         weather::get_info_for(&geo_info.coordinates, temperature_unit, windspeed_unit).await;
+
     let weather_info = match weather_info_result {
         Ok(weather_info) => weather_info,
         Err(e) => {

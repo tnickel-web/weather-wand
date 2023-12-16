@@ -21,21 +21,20 @@ pub fn deserialize(
     let parsed_body: Value =
         serde_json::from_str(&body?).map_err(|err| format!("Error parsing JSON: {}", err))?;
 
+    if parsed_body["error"] == true {
+        return Err(Box::new(CustomError::WeatherInfoNotFound(
+            "current_weather".to_string(),
+        )));
+    }
+
     let temperature = &parsed_body["current_weather"]["temperature"]
         .as_f64()
-        .ok_or_else(|| Box::new(CustomError::WeatherInfoNotFound("temperature".to_string())))?;
-
+        .unwrap();
     let windspeed = &parsed_body["current_weather"]["windspeed"]
         .as_f64()
-        .ok_or_else(|| Box::new(CustomError::WeatherInfoNotFound("windspeed".to_string())))?;
-
-    let is_day = &parsed_body["current_weather"]["is_day"]
-        .as_u64()
-        .ok_or_else(|| Box::new(CustomError::WeatherInfoNotFound("is_day".to_string())))?;
-
-    let unix_timestamp = &parsed_body["current_weather"]["time"]
-        .as_u64()
-        .ok_or_else(|| Box::new(CustomError::WeatherInfoNotFound("time".to_string())))?;
+        .unwrap();
+    let is_day = &parsed_body["current_weather"]["is_day"].as_u64().unwrap();
+    let unix_timestamp = &parsed_body["current_weather"]["time"].as_u64().unwrap();
 
     let current_weather = CurrentWeather {
         temperature: temperature.to_string(),
@@ -45,4 +44,35 @@ pub fn deserialize(
     };
 
     Ok(current_weather)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::deserialize;
+
+    #[test]
+    fn deserialize_creates_correct_current_weather_struct() {
+        let json =
+            r#"{"current_weather":{"time":1702740600,"temperature":8.8,"windspeed":12.7,"is_day":1}}"#.to_string();
+
+        let result = deserialize(Ok(json)).unwrap();
+
+        assert_eq!(result.timestamp, 1702740600);
+        assert_eq!(result.temperature, "8.8");
+        assert_eq!(result.windspeed, "12.7");
+        assert_eq!(result.is_day, "1");
+    }
+
+    #[test]
+    fn deserialize_throws_error_on_api_error() {
+        // The weather API returns an "error" JSON field if there was an error,
+        // so we use this to trigger the WeatherInfoNotFound error.
+        let result = deserialize(Ok(r#"{"error": true}"#.to_string()));
+
+        assert!(result.is_err());
+
+        if let Some(err) = result.err() {
+            assert!(err.to_string().contains("Weather information not found"));
+        }
+    }
 }
