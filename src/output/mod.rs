@@ -1,13 +1,22 @@
 use super::geolocation::Location;
 use super::weather::CurrentWeather;
 use crate::config::args::{ClockDisplay, TemperatureUnit, WindspeedUnit};
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, Local, Utc};
 use colored::Colorize;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 pub struct WeatherOutput {}
 
 impl WeatherOutput {
+    /// Prints the current weather report to the console.
+    ///
+    /// # Arguments
+    ///
+    /// * `weather`: A reference to the `CurrentWeather` struct containing weather information.
+    /// * `geo_info`: A reference to the `Location` struct containing geolocation information.
+    /// * `temperature_unit`: The unit for temperature display (e.g. Celsius or Fahrenheit).
+    /// * `windspeed_unit`: The unit for windspeed display (e.g. m/s or mph).
+    /// * `clock_display`: The clock display format (12-hour or 24-hour).
     pub fn print_output(
         weather: &CurrentWeather,
         geo_info: &Location,
@@ -63,7 +72,7 @@ impl WeatherOutput {
             day_night_status.bright_blue()
         );
 
-        let formatted_time = format_time(weather.timestamp, clock_display);
+        let formatted_date_local = format_date(weather.timestamp, clock_display).local;
 
         println!("┌{}┐", decoration);
         println!("  {}", header.cyan().bold(),);
@@ -79,10 +88,10 @@ impl WeatherOutput {
             geo_info.coordinates.longitude.bright_blue()
         );
         println!("{}", day_night_formatted);
-        println!("    Time:        {}", formatted_time.bright_blue());
+        println!("    Time:        {}", formatted_date_local.bright_blue());
         println!(
             "    Timezone:    {}",
-            weather
+            geo_info
                 .timezone
                 .trim_matches('"')
                 .replace('_', " ")
@@ -92,15 +101,72 @@ impl WeatherOutput {
     }
 }
 
-fn format_time(timestamp: u64, clock_display: &ClockDisplay) -> String {
-    let converted_time: SystemTime = UNIX_EPOCH + std::time::Duration::from_secs(timestamp);
+struct FormattedDates {
+    #[allow(dead_code)]
+    utc: String,
+    local: String,
+}
+
+fn format_date(timestamp: u64, clock_display: &ClockDisplay) -> FormattedDates {
+    let converted_date: SystemTime = UNIX_EPOCH + std::time::Duration::from_secs(timestamp);
 
     let format = match clock_display {
         ClockDisplay::_12h => "%Y-%m-%d %I:%M %p",
         ClockDisplay::_24h => "%Y-%m-%d %H:%M",
     };
 
-    let formatted_time = format!("{}", DateTime::<Utc>::from(converted_time).format(format));
+    let formatted_date_utc = format!("{}", DateTime::<Utc>::from(converted_date).format(format));
+    let formatted_date_local =
+        format!("{}", DateTime::<Local>::from(converted_date).format(format));
 
-    formatted_time
+    FormattedDates {
+        utc: formatted_date_utc,
+        local: formatted_date_local,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::format_date;
+    use crate::config::args::ClockDisplay;
+    use chrono::{Local, TimeZone, Utc};
+
+    #[test]
+    fn format_date_returns_correctly_formatted_dates() {
+        let timestamp = 1672531200;
+        assert_eq!(
+            "2023-01-01 12:00 AM",
+            format_date(timestamp, &ClockDisplay::_12h).utc
+        );
+        assert_eq!(
+            "2023-01-01 00:00",
+            format_date(timestamp, &ClockDisplay::_24h).utc
+        );
+
+        // Convert UTC to local
+        let local_time_12h_expected = Utc
+            .timestamp_opt(timestamp as i64, 0)
+            .earliest()
+            .unwrap()
+            .with_timezone(&Local)
+            .format("%Y-%m-%d %I:%M %p")
+            .to_string();
+        assert_eq!(
+            local_time_12h_expected,
+            format_date(timestamp, &ClockDisplay::_12h).local
+        );
+
+        // Convert UTC to local
+        let local_time_24h_expected = Utc
+            .timestamp_opt(timestamp as i64, 0)
+            .earliest()
+            .unwrap()
+            .with_timezone(&Local)
+            .format("%Y-%m-%d %H:%M")
+            .to_string();
+        assert_eq!(
+            local_time_24h_expected,
+            format_date(timestamp, &ClockDisplay::_24h).local
+        );
+    }
 }
