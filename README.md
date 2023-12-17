@@ -176,6 +176,7 @@ cargo build --release --target x86_64-pc-windows-gnu
 
 ## ToDo
 
+- [ ] Update demo image
 - [x] Add 24h/12h clock argument
 - [ ] Add metric/imperial argument for defining a set of units (fewer arguments needed)
 - [ ] Display x day forecast (use arguments)
