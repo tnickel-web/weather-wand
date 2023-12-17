@@ -79,9 +79,11 @@ impl WeatherOutput {
         println!("  󱣖  Temperature: {}", temperature_formatted.bright_blue());
         println!("    Wind Speed:  {}", windspeed_formatted.bright_blue());
         println!(
-            "    Location:    {}",
-            geo_info.name.trim_matches('"').bright_blue()
+            "  󰅆  City:        {}, {}",
+            geo_info.name.trim_matches('"').bright_blue(),
+            geo_info.country.trim_matches('"').bright_blue()
         );
+        println!("    Region:      {}", geo_info.region.bright_blue());
         println!(
             "    Coordinates: {}, {}",
             geo_info.coordinates.latitude.bright_blue(),

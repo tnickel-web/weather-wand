@@ -40,6 +40,8 @@ pub struct Location {
     pub country_code: String,
     pub timezone: String,
     pub coordinates: Coordinates,
+    pub region: String,
+    pub country: String,
 }
 
 /// A struct representing the `url` of the geolocation API.
@@ -87,5 +89,7 @@ mod tests {
         assert_eq!(result.timezone, "America/New_York");
         assert_eq!(result.coordinates.latitude, "40.71427");
         assert_eq!(result.coordinates.longitude, "-74.00597");
+        assert_eq!(result.region, "New York");
+        assert_eq!(result.country, "United States");
     }
 }
