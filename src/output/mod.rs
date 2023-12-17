@@ -79,16 +79,20 @@ impl WeatherOutput {
         println!("  󱣖  Temperature: {}", temperature_formatted.bright_blue());
         println!("    Wind Speed:  {}", windspeed_formatted.bright_blue());
         println!(
-            "  󰅆  City:        {}, {}",
-            geo_info.name.trim_matches('"').bright_blue(),
-            geo_info.country.trim_matches('"').bright_blue()
+            "  󰅆  City:        {}",
+            geo_info.name.trim_matches('"').bright_blue()
         );
-        println!("    Region:      {}", geo_info.region.bright_blue());
-        println!(
-            "    Coordinates: {}, {}",
-            geo_info.coordinates.latitude.bright_blue(),
-            geo_info.coordinates.longitude.bright_blue()
-        );
+
+        let area = format!("{}, {}", geo_info.region, geo_info.country).bright_blue();
+        println!("    Area:        {}", area);
+
+        let coordinates = format!(
+            "{}, {}",
+            geo_info.coordinates.latitude, geo_info.coordinates.longitude
+        )
+        .bright_blue();
+        println!("    Coordinates: {}", coordinates);
+
         println!("{}", day_night_formatted);
         println!("    Time:        {}", formatted_date_local.bright_blue());
         println!(
