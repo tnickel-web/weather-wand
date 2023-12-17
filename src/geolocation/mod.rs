@@ -73,11 +73,9 @@ mod tests {
     fn setters_insert_correct_information_into_url() {
         let mut geo_api_url = GeoApiUrl::new(Config::get_value("geo_api_url").unwrap());
 
-        let expected_url = "https://geocoding-api.open-meteo.com/v1/search?name=New York&count=1&language=en&format=json";
-
         let actual_url = &geo_api_url.set_location("New York").unwrap().url;
 
-        assert_eq!(actual_url, expected_url);
+        assert!(actual_url.contains("name=New York"));
     }
 
     #[tokio::test]

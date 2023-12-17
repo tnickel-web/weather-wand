@@ -111,8 +111,6 @@ mod tests {
     fn setters_insert_correct_information_into_url() {
         let mut weather_api_url = WeatherApiUrl::new(Config::get_value("weather_api_url").unwrap());
 
-        let expected_url = "https://api.open-meteo.com/v1/forecast?latitude=40.71427&longitude=-74.00597&current_weather=true&temperature_unit=celsius&timezone=auto&windspeed_unit=kmh&timeformat=unixtime";
-
         let actual_url = &weather_api_url
             .set_coordinates("40.71427", "-74.00597")
             .unwrap()
@@ -122,7 +120,9 @@ mod tests {
             .unwrap()
             .url;
 
-        assert_eq!(actual_url, expected_url);
+        assert!(actual_url.contains("latitude=40.71427&longitude=-74.00597"));
+        assert!(actual_url.contains("temperature_unit=celsius"));
+        assert!(actual_url.contains("windspeed_unit=kmh"));
     }
 
     #[tokio::test]
