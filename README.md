@@ -88,13 +88,13 @@ The executable is supposed to be run from the terminal. Double-clicking the
 executable might not work, since it is a command-line application.
 
 ```shell
-weather-wand --city <CITY> --temperature-unit <TEMPERATURE_UNIT> --windspeed-unit <WINDSPEED_UNIT>
+weather-wand --city <CITY> --temperature-unit <TEMPERATURE_UNIT> --windspeed-unit <WINDSPEED_UNIT> --display <CLOCK_FORMAT>
 ```
 
 Example:
 
 ```shell
-weather-wand -c "New York" -t fahrenheit -w mph
+weather-wand -c "New York" -t fahrenheit -w mph -d 12h
 ```
 
 Help:
