@@ -13,6 +13,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args: Args = Args::parse();
 
     let geo_info_result = geolocation::get_info_for(&args.city[0]).await;
+
     let geo_info = match geo_info_result {
         Ok(geo_info) => geo_info,
         Err(e) => {
