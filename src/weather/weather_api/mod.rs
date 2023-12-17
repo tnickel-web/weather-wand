@@ -74,9 +74,9 @@ mod tests {
     #[tokio::test]
     async fn exceeding_timeout_triggers_error() {
         let start_time = SystemTime::now();
+        let two_seconds = Duration::from_secs(2);
 
         let server = MockServer::start();
-        let two_seconds = Duration::from_secs(2);
 
         let timeout_mock = server.mock(|when, then| {
             when.method(GET).path("/timeout");
