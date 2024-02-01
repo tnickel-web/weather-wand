@@ -1,6 +1,6 @@
 [package]
 name = "weather-wand"
-version = "1.1.0"
+version = "1.2.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -9,12 +9,16 @@ edition = "2021"
 serde_json = "1.0.105"
 serde = { version = "^1.0", features = ["derive"] }
 
-reqwest = { version = "0.11.20", features = ["blocking", "json"] }
+reqwest = { version = "0.11.20", features = ["json"] }
 tokio = { version = "1.32.0", features = ["full"] }
 
-clap = { version = "4.4.2", features = ["derive"] } 
+clap = { version = "4.4.2", features = ["derive"] }
 colored = "2.0.4"
 chrono = "0.4.31"
+
+[dev-dependencies]
+tokio-test = "*"
+httpmock = "0.6.8"
 
 [profile.release]
 opt-level = 'z'     # Optimize for size

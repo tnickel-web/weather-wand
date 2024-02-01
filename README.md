@@ -42,10 +42,9 @@ to access weather information for any location and display it with clarity.
 ## Features
 
 - Fetch geolocation & weather data from an API.
-- Deserialize JSON responses.
 - Display weather information in the terminal.
-- Support for various units (temperature, wind speed).
-- Provide automated install script for Linux.
+- Support for various units (temperature, wind speed, 12h/24h clock).
+- Automated install script for Linux systems.
 
 ---
 
@@ -66,10 +65,10 @@ Linux:
 There are 2 ways to install this program.
 
 1. Download the latest release manually and place it in a directory of your
-   choosing.
+   choosing (preferably somewhere in your $PATH).
 2. Run the automated installation script in the bin/ directory to install the
    program on your system. The script requires elevated privileges. **As always,
-   please check the content of the script for safety before running it.**
+   please check the content of any script for safety before running it.**
 
 ```shell
 sudo bin/install-linux.sh
@@ -88,13 +87,13 @@ The executable is supposed to be run from the terminal. Double-clicking the
 executable might not work, since it is a command-line application.
 
 ```shell
-weather-wand --city <CITY> --temperature-unit <TEMPERATURE_UNIT> --windspeed-unit <WINDSPEED_UNIT>
+weather-wand --city <CITY> --temperature-unit <TEMPERATURE_UNIT> --windspeed-unit <WINDSPEED_UNIT> --display <CLOCK_FORMAT>
 ```
 
 Example:
 
 ```shell
-weather-wand -c "New York" -t fahrenheit -w mph
+weather-wand -c "New York" -t fahrenheit -w mph -d 12h
 ```
 
 Help:
@@ -176,6 +175,7 @@ cargo build --release --target x86_64-pc-windows-gnu
 
 ## ToDo
 
+- [ ] Update demo image
 - [x] Add 24h/12h clock argument
 - [ ] Add metric/imperial argument for defining a set of units (fewer arguments needed)
 - [ ] Display x day forecast (use arguments)
@@ -183,5 +183,5 @@ cargo build --release --target x86_64-pc-windows-gnu
 - [ ] Implement update checker when running + automate updating **or:** Check
       for updates on execution and display update instructions (e.g. "to update,
       run weather-wand --update")
-- [ ] Implement testing.
+- [x] Implement testing.
 - [ ] Solve node12 vs node16 issue for Actions.
