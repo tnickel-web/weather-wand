@@ -152,7 +152,7 @@ cd weather-wand
 3. Run the project:
 
 ```shell
-cargo run --
+cargo run
 ```
 
 4. Build for release:
