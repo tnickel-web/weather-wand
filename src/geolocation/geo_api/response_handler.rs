@@ -16,7 +16,7 @@ use serde_json::Value;
 /// This function can return errors in the following scenarios:
 /// * The JSON string cannot be parsed.
 /// * No results are found in the JSON structure.
-/// * An error field is found in the JSON structure..
+/// * An error field is found in the JSON structure.
 pub fn deserialize(
     body: Result<String, Box<dyn std::error::Error>>,
 ) -> Result<Location, Box<dyn std::error::Error>> {
@@ -34,6 +34,8 @@ pub fn deserialize(
     let country_code = &parsed_body["results"][0]["country_code"].as_str().unwrap();
     let latitude = &parsed_body["results"][0]["latitude"].as_f64().unwrap();
     let longitude = &parsed_body["results"][0]["longitude"].as_f64().unwrap();
+    let region = &parsed_body["results"][0]["admin1"].as_str().unwrap();
+    let country = &parsed_body["results"][0]["country"].as_str().unwrap();
 
     let location: Location = Location {
         name: city_name.to_string(),
@@ -43,6 +45,8 @@ pub fn deserialize(
             latitude: latitude.to_string(),
             longitude: longitude.to_string(),
         },
+        region: region.to_string(),
+        country: country.to_string(),
     };
 
     Ok(location)
@@ -55,7 +59,7 @@ mod tests {
     #[test]
     fn deserialize_creates_correct_location_struct() {
         let json =
-            r#"{"results":[{"name":"New York","latitude":40.71427,"longitude":-74.00597,"country_code":"US","timezone":"America/New_York"}]}"#.to_string();
+            r#"{"results":[{"name":"New York","latitude":40.71427,"longitude":-74.00597,"country_code":"US","timezone":"America/New_York","country":"United States","admin1":"New York"}]}"#.to_string();
 
         let result = deserialize(Ok(json)).unwrap();
 
@@ -64,6 +68,8 @@ mod tests {
         assert_eq!(result.coordinates.longitude, "-74.00597");
         assert_eq!(result.country_code, "US");
         assert_eq!(result.timezone, "America/New_York");
+        assert_eq!(result.region, "New York");
+        assert_eq!(result.country, "United States");
     }
 
     #[test]

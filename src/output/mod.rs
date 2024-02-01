@@ -55,22 +55,10 @@ impl WeatherOutput {
         );
 
         let day_night_icon = if weather.is_day == "1" {
-            "   "
+            " "
         } else {
-            "   "
+            " "
         };
-
-        let day_night_status = if weather.is_day == "1" {
-            " Day"
-        } else {
-            " Night"
-        };
-
-        let day_night_formatted = format!(
-            "{} Day/Night:  {}",
-            day_night_icon,
-            day_night_status.bright_blue()
-        );
 
         let formatted_date_local = format_date(weather.timestamp, clock_display).local;
 
@@ -79,16 +67,26 @@ impl WeatherOutput {
         println!("  󱣖  Temperature: {}", temperature_formatted.bright_blue());
         println!("    Wind Speed:  {}", windspeed_formatted.bright_blue());
         println!(
-            "    Location:    {}",
+            "  󰅆  City:        {}",
             geo_info.name.trim_matches('"').bright_blue()
         );
+
+        let area = format!("{}, {}", geo_info.region, geo_info.country).bright_blue();
+        println!("    Area:        {}", area);
+
+        let coordinates = format!(
+            "{}, {}",
+            geo_info.coordinates.latitude, geo_info.coordinates.longitude
+        )
+        .bright_blue();
+        println!("    Coordinates: {}", coordinates);
+
         println!(
-            "    Coordinates: {}, {}",
-            geo_info.coordinates.latitude.bright_blue(),
-            geo_info.coordinates.longitude.bright_blue()
+            "    Time:        {} {} {}",
+            formatted_date_local.bright_blue(),
+            "|".bright_blue(),
+            day_night_icon.bright_blue()
         );
-        println!("{}", day_night_formatted);
-        println!("    Time:        {}", formatted_date_local.bright_blue());
         println!(
             "    Timezone:    {}",
             geo_info
@@ -111,8 +109,8 @@ fn format_date(timestamp: u64, clock_display: &ClockDisplay) -> FormattedDates {
     let converted_date: SystemTime = UNIX_EPOCH + std::time::Duration::from_secs(timestamp);
 
     let format = match clock_display {
-        ClockDisplay::_12h => "%Y-%m-%d %I:%M %p",
-        ClockDisplay::_24h => "%Y-%m-%d %H:%M",
+        ClockDisplay::_12h => "%b %-e, %Y %I:%M %p",
+        ClockDisplay::_24h => "%b %-e, %Y %H:%M",
     };
 
     let formatted_date_utc = format!("{}", DateTime::<Utc>::from(converted_date).format(format));
@@ -135,11 +133,11 @@ mod tests {
     fn format_date_returns_correctly_formatted_dates() {
         let timestamp = 1672531200;
         assert_eq!(
-            "2023-01-01 12:00 AM",
+            "Jan 1, 2023 12:00 AM",
             format_date(timestamp, &ClockDisplay::_12h).utc
         );
         assert_eq!(
-            "2023-01-01 00:00",
+            "Jan 1, 2023 00:00",
             format_date(timestamp, &ClockDisplay::_24h).utc
         );
 
@@ -149,7 +147,7 @@ mod tests {
             .earliest()
             .unwrap()
             .with_timezone(&Local)
-            .format("%Y-%m-%d %I:%M %p")
+            .format("%b %-e, %Y %I:%M %p")
             .to_string();
         assert_eq!(
             local_time_12h_expected,
@@ -162,7 +160,7 @@ mod tests {
             .earliest()
             .unwrap()
             .with_timezone(&Local)
-            .format("%Y-%m-%d %H:%M")
+            .format("%b %-e, %Y %H:%M")
             .to_string();
         assert_eq!(
             local_time_24h_expected,

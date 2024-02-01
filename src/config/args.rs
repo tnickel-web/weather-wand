@@ -3,7 +3,7 @@ use std::fmt::Display;
 
 #[derive(Parser)]
 #[clap(
-    version = "1.1.0",
+    version = "1.2.0",
     about = "A CLI tool to fetch weather from an API and display a beautified output. Supports arguments for city, temperature- and wind speed unit."
 )]
 pub struct Args {

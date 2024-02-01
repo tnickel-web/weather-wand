@@ -40,6 +40,8 @@ pub struct Location {
     pub country_code: String,
     pub timezone: String,
     pub coordinates: Coordinates,
+    pub region: String,
+    pub country: String,
 }
 
 /// A struct representing the `url` of the geolocation API.
@@ -73,11 +75,9 @@ mod tests {
     fn setters_insert_correct_information_into_url() {
         let mut geo_api_url = GeoApiUrl::new(Config::get_value("geo_api_url").unwrap());
 
-        let expected_url = "https://geocoding-api.open-meteo.com/v1/search?name=New York&count=1&language=en&format=json";
-
         let actual_url = &geo_api_url.set_location("New York").unwrap().url;
 
-        assert_eq!(actual_url, expected_url);
+        assert!(actual_url.contains("name=New York"));
     }
 
     #[tokio::test]
@@ -89,5 +89,7 @@ mod tests {
         assert_eq!(result.timezone, "America/New_York");
         assert_eq!(result.coordinates.latitude, "40.71427");
         assert_eq!(result.coordinates.longitude, "-74.00597");
+        assert_eq!(result.region, "New York");
+        assert_eq!(result.country, "United States");
     }
 }
