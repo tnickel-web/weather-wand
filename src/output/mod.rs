@@ -55,22 +55,10 @@ impl WeatherOutput {
         );
 
         let day_night_icon = if weather.is_day == "1" {
-            "   "
+            " "
         } else {
-            "   "
+            " "
         };
-
-        let day_night_status = if weather.is_day == "1" {
-            " Day"
-        } else {
-            " Night"
-        };
-
-        let day_night_formatted = format!(
-            "{} Day/Night:  {}",
-            day_night_icon,
-            day_night_status.bright_blue()
-        );
 
         let formatted_date_local = format_date(weather.timestamp, clock_display).local;
 
@@ -93,8 +81,12 @@ impl WeatherOutput {
         .bright_blue();
         println!("    Coordinates: {}", coordinates);
 
-        println!("{}", day_night_formatted);
-        println!("    Time:        {}", formatted_date_local.bright_blue());
+        println!(
+            "    Time:        {} {} {}",
+            formatted_date_local.bright_blue(),
+            "|".bright_blue(),
+            day_night_icon.bright_blue()
+        );
         println!(
             "    Timezone:    {}",
             geo_info
