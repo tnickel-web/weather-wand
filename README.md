@@ -42,10 +42,9 @@ to access weather information for any location and display it with clarity.
 ## Features
 
 - Fetch geolocation & weather data from an API.
-- Deserialize JSON responses.
 - Display weather information in the terminal.
-- Support for various units (temperature, wind speed).
-- Provide automated install script for Linux.
+- Support for various units (temperature, wind speed, 12h/24h clock).
+- Automated install script for Linux systems.
 
 ---
 
@@ -66,10 +65,10 @@ Linux:
 There are 2 ways to install this program.
 
 1. Download the latest release manually and place it in a directory of your
-   choosing.
+   choosing (preferably somewhere in your $PATH).
 2. Run the automated installation script in the bin/ directory to install the
    program on your system. The script requires elevated privileges. **As always,
-   please check the content of the script for safety before running it.**
+   please check the content of any script for safety before running it.**
 
 ```shell
 sudo bin/install-linux.sh
@@ -153,7 +152,7 @@ cd weather-wand
 3. Run the project:
 
 ```shell
-cargo run
+cargo run --
 ```
 
 4. Build for release:
