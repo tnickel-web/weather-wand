@@ -79,14 +79,7 @@ impl WeatherOutput {
             geo_info.coordinates.latitude, geo_info.coordinates.longitude
         )
         .bright_blue();
-        println!("    Coordinates: {}", coordinates);
 
-        println!(
-            "    Time:        {} {} {}",
-            formatted_date_local.bright_blue(),
-            "|".bright_blue(),
-            day_night_icon.bright_blue()
-        );
         println!(
             "    Timezone:    {}",
             geo_info
@@ -95,6 +88,16 @@ impl WeatherOutput {
                 .replace('_', " ")
                 .bright_blue()
         );
+
+        println!("    Coordinates: {}", coordinates);
+
+        println!(
+            "    Update Time: {} {} {}",
+            formatted_date_local.bright_blue(),
+            "|".bright_blue(),
+            day_night_icon.bright_blue()
+        );
+
         println!("└{}┘", decoration);
     }
 }
