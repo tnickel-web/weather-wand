@@ -24,7 +24,6 @@ works™")._
 - [Installation](#installation)
 - [Usage](#usage)
 - [Development](#development)
-- [ToDo](#todo)
 
 ---
 
