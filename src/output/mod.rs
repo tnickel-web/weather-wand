@@ -7,6 +7,7 @@ use std::time::{SystemTime, UNIX_EPOCH};
 
 pub struct WeatherOutput {}
 
+#[cfg(not(tarpaulin_include))]
 impl WeatherOutput {
     /// Prints the current weather report to the console.
     ///

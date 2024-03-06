@@ -82,3 +82,28 @@ impl Display for ClockDisplay {
         write!(f, "{}", str)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_temperature_unit_fmt_formats_correct_strings() {
+        assert_eq!(format!("{}", TemperatureUnit::Celsius), "celsius");
+        assert_eq!(format!("{}", TemperatureUnit::Fahrenheit), "fahrenheit");
+    }
+
+    #[test]
+    fn test_windspeed_unit_fmt_formats_correct_strings() {
+        assert_eq!(format!("{}", WindspeedUnit::Kmh), "kmh");
+        assert_eq!(format!("{}", WindspeedUnit::Ms), "ms");
+        assert_eq!(format!("{}", WindspeedUnit::Mph), "mph");
+        assert_eq!(format!("{}", WindspeedUnit::Kn), "kn");
+    }
+
+    #[test]
+    fn clock_display_fmt_formats_correct_strings() {
+        assert_eq!(format!("{}", ClockDisplay::_12h), "12h");
+        assert_eq!(format!("{}", ClockDisplay::_24h), "24h");
+    }
+}
