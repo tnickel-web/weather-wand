@@ -36,7 +36,7 @@ pub async fn get_info_for(
     let mut url_unmodified = WeatherApiUrl::new(base_url);
 
     let url = &url_unmodified
-        .set_coordinates(&coordinates.latitude, &coordinates.longitude)?
+        .set_coordinates(coordinates)?
         .set_temperature_unit(temperature_unit)?
         .set_windspeed_unit(windspeed_unit)?
         .url;
@@ -61,13 +61,12 @@ impl WeatherApiUrl {
     /// Replaces the coordinates placeholder in the Weather API URL with values.
     pub fn set_coordinates(
         &mut self,
-        latitude: &str,
-        longitude: &str,
+        coordinates: &Coordinates,
     ) -> Result<&mut WeatherApiUrl, Box<dyn std::error::Error>> {
         self.url = self
             .url
-            .replace("__LAT__", latitude)
-            .replace("__LON__", longitude);
+            .replace("__LAT__", &coordinates.latitude)
+            .replace("__LON__", &coordinates.longitude);
 
         Ok(self)
     }
@@ -109,10 +108,15 @@ mod tests {
 
     #[test]
     fn setters_insert_correct_information_into_url() {
+        let coordinates = Coordinates {
+            latitude: "40.71427".to_string(),
+            longitude: "-74.00597".to_string(),
+        };
+
         let mut weather_api_url = WeatherApiUrl::new(Config::get_value("weather_api_url").unwrap());
 
         let actual_url = &weather_api_url
-            .set_coordinates("40.71427", "-74.00597")
+            .set_coordinates(&coordinates)
             .unwrap()
             .set_temperature_unit(&TemperatureUnit::Celsius)
             .unwrap()
