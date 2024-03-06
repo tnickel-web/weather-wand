@@ -18,7 +18,7 @@ chrono = "0.4.31"
 
 [dev-dependencies]
 tokio-test = "*"
-httpmock = "0.6.8"
+httpmock = "0.7.0"
 
 [profile.release]
 opt-level = 'z'     # Optimize for size
