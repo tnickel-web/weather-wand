@@ -35,6 +35,7 @@ pub async fn get_info_for(
     let base_url = Config::get_value("weather_api_url")?;
     let mut url_unmodified = WeatherApiUrl::new(base_url);
 
+    #[cfg(not(tarpaulin_include))] // Disabled due to coverage failing when multi-line 
     let url = &url_unmodified
         .set_coordinates(coordinates)?
         .set_temperature_unit(temperature_unit)?

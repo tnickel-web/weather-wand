@@ -8,6 +8,7 @@ use clap::Parser;
 use config::args::Args;
 use output::WeatherOutput;
 
+#[cfg(not(tarpaulin_include))]
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args: Args = Args::parse();
