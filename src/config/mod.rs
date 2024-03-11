@@ -63,4 +63,24 @@ mod tests {
             "https://api.open-meteo.com/v1/forecast?latitude=__LAT__&longitude=__LON__&current_weather=true&temperature_unit=__TEMPERATURE_UNIT__&timezone=auto&windspeed_unit=__WINDSPEED_UNIT__&timeformat=unixtime"
         );
     }
+
+    #[test]
+    fn get_value_returns_format_error_on_missing_value() {
+        let value = Config::get_value("invalid_api_url");
+
+        assert!(value.is_err());
+        assert!(value
+            .err()
+            .unwrap()
+            .to_string()
+            .contains("Invalid JSON format"));
+    }
+
+    #[test]
+    fn get_value_returns_key_error_on_non_string_value() {
+        let value = Config::get_value("test_value");
+
+        assert!(value.is_err());
+        assert!(value.err().unwrap().to_string().contains("Value for key"));
+    }
 }

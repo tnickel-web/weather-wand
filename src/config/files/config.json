@@ -1,4 +1,5 @@
 {
   "geo_api_url": "https://geocoding-api.open-meteo.com/v1/search?name=__NAME__&count=1&language=en&format=json",
-  "weather_api_url": "https://api.open-meteo.com/v1/forecast?latitude=__LAT__&longitude=__LON__&current_weather=true&temperature_unit=__TEMPERATURE_UNIT__&timezone=auto&windspeed_unit=__WINDSPEED_UNIT__&timeformat=unixtime"
+  "weather_api_url": "https://api.open-meteo.com/v1/forecast?latitude=__LAT__&longitude=__LON__&current_weather=true&temperature_unit=__TEMPERATURE_UNIT__&timezone=auto&windspeed_unit=__WINDSPEED_UNIT__&timeformat=unixtime",
+  "test_value": 0
 }
